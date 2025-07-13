@@ -10,12 +10,12 @@ void setHood(bool in){
     }
 }
 
-pros::Motor I1 ((int)-14, pros::v5::MotorGears::blue, pros::MotorUnits::rotations);
-pros::Motor I2 ((int)21, pros::v5::MotorGears::blue, pros::MotorUnits::rotations);
+pros::Motor I1 ((int)-20, pros::v5::MotorGears::blue, pros::MotorUnits::rotations);
+pros::Motor I2 ((int)12, pros::v5::MotorGears::blue, pros::MotorUnits::rotations);
 void intakeIn(){
     setHood(false);
-        I1.move_velocity(600);
-        I2.move_velocity(600);
+        I1.move_velocity(400);
+        I2.move_velocity(500);
 }
 void intakeOutLow(bool slowin){
     if(!slowin){
@@ -54,7 +54,7 @@ void intakeLoop(){
     else{
         slow = false;
     }
-    if(master.get_digital(DIGITAL_Y)){
+    if(master.get_digital_new_press(DIGITAL_Y)){
         tongue.toggle();
     }
     if(master.get_digital(DIGITAL_R1)) {

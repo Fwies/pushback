@@ -1,12 +1,12 @@
 #include "main.h"
-pros::Motor L1 ((int)3, pros::v5::MotorGears::blue, pros::MotorUnits::rotations);
-pros::Motor L2 ((int)4, pros::v5::MotorGears::blue, pros::MotorUnits::rotations);
-pros::Motor L3 ((int)-1, pros::v5::MotorGears::blue, pros::MotorUnits::rotations);
-pros::Motor R1 ((int)-1, pros::v5::MotorGears::blue, pros::MotorUnits::rotations);
-pros::Motor R2 ((int)-2, pros::v5::MotorGears::blue, pros::MotorUnits::rotations);
-pros::Motor R3 ((int)2, pros::v5::MotorGears::blue, pros::MotorUnits::rotations);
-pros::MotorGroup leftDrive({3,-4,-1});    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
-pros::MotorGroup rightDrive({-1,2,2});
+pros::Motor L1 ((int)-10, pros::v5::MotorGears::blue, pros::MotorUnits::rotations);
+pros::Motor L2 ((int)-9, pros::v5::MotorGears::blue, pros::MotorUnits::rotations);
+pros::Motor L3 ((int)-8, pros::v5::MotorGears::blue, pros::MotorUnits::rotations);
+pros::Motor R1 ((int)5, pros::v5::MotorGears::blue, pros::MotorUnits::rotations);
+pros::Motor R2 ((int)6, pros::v5::MotorGears::blue, pros::MotorUnits::rotations);
+pros::Motor R3 ((int)4, pros::v5::MotorGears::blue, pros::MotorUnits::rotations);
+pros::MotorGroup leftDrive({-10,-9,-8});    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
+pros::MotorGroup rightDrive({4,6,5});
 double input = 0;
 void driveLoop(){
     input = master.get_analog(ANALOG_LEFT_Y);
@@ -14,14 +14,23 @@ void driveLoop(){
 			input=(input*0.46456692913)+68;
 			
 		}
+    if(input<0){
+			input=(input*0.46456692913)-68;
+			
+		}
 		
-		pros::lcd::set_text(0, std::to_string(input));
-		leftDrive.move_voltage((input*input*input)*0.00585281132);
+		//pros::lcd::set_text(0, std::to_string(input));
+		leftDrive.move_voltage(((input*input*input)*0.00585281132)*1);
 		input = master.get_analog(ANALOG_RIGHT_Y);
 		if(input>0){
 			input=(input*0.46456692913)+68;
 		}
-		rightDrive.move_voltage((input*input*input)*0.00585281132);
+		if(input<0){
+			input=(input*0.46456692913)-68;
+			
+		}
+
+		rightDrive.move_voltage(((input*input*input)*0.00585281132)*1);
 }
 
 

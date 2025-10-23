@@ -31,7 +31,9 @@ void disabled() {
  * starts.
  */
 void competition_initialize() {
-	chassis.calibrate();
+	//lemlib::Pose og = lemlib::Pose(chassis.getPose());
+	//chassis.calibrate(true);
+	//chassis.setPose(og);
 	while(true){
 	autoSet(-1);
 	autoPrint();
@@ -75,6 +77,7 @@ void opcontrol() {
 	
 	  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
 
+	chassis.calibrate();
 
 	while (true) {
 		pros::lcd::set_text(0, "X: " + std::to_string(chassis.getPose().x));

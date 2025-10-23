@@ -2,11 +2,21 @@
 
 pros::adi::AnalogIn pot(8);
 int auton = 0;
-std::string autoNames[5] = {"no auto","left","right","solo awp","skills"};
+std::string autoNames[5] = {"no auto","left","right","skills","solo awp"};
 void autoPrint(){
     pros::lcd::set_text(3, "auton: " + autoNames[auton]);
 }
 void autoSet(int in){//-1 means pot
+    if(master.get_digital_new_press(DIGITAL_LEFT)){
+        chassis.setPose(0,0,270,false);
+    }
+    if(master.get_digital_new_press(DIGITAL_RIGHT)){
+        chassis.setPose(0,0,90,false);
+    }
+    if(master.get_digital_new_press(DIGITAL_RIGHT)){
+        chassis.setPose(0,0,chassis.getPose().theta,false);
+    }
+    
     if(in < 0){
         in = pot.get_value();
         if (in < (0.2*4096)){
@@ -30,15 +40,21 @@ void autoSet(int in){//-1 means pot
     }
 }
 void autoLeft(){
+    
+
 
 }
 void autoRight(){
-
+    
 }
 void autoSkills(){
+    
+    
 
 }
 void autoAWP(){
+    
+  
 
 }
 void autoRun(){

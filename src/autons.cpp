@@ -45,7 +45,38 @@ void autoLeft(){
 
 }
 void autoRight(){
+    /*chassis.moveToPoint(0,12,2000,{},false);
+    chassis.moveToPoint(0,48,2000,{},false);
+    chassis.moveToPoint(0,12,2000,{.forwards=false},false);
+    chassis.moveToPoint(0,0,2000,{.forwards=false},false);*/
+    /*chassis.turnToHeading(45,2000,{},false);
+    master.rumble(".");
     
+    chassis.turnToHeading(225,2000,{},false);
+     master.rumble(".");
+    
+    chassis.turnToHeading(0,2000,{},false);
+     master.rumble(".");*/
+     chassis.setPose(0,0,180,{false});
+     
+     chassis.moveToPose(-12.5,34,142,2000,{.forwards=false},false);//140
+     //intakeOutHigh(true);
+    setHood(true);
+     I3.move_velocity(100);
+     pros::delay(400);
+     intakeStop();
+     intakeIn();
+     chassis.moveToPoint(17.5,26.2,2000,{},true);//140
+    chassis.waitUntil(8);
+    chassis.cancelMotion();
+    chassis.moveToPoint(17.5,26.2,2000,{.maxSpeed=50},true);//140
+    chassis.waitUntil(8);
+    tongue.toggle();
+    chassis.waitUntilDone();
+    chassis.moveToPoint(-2.3,42.8,2000,{.maxSpeed=60},true);//
+    chassis.waitUntil(9);
+    tongue.toggle();
+     
 }
 void autoSkills(){
     

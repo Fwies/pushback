@@ -14,11 +14,11 @@ void initialize() {
  * the robot is enabled, this task will exit.
  */
 void disabled() {
-	while(true){
-	autoSet(-1);
-	autoPrint();
-	pros::delay(10);
-	}
+	//while(true){
+	//autoSet(-1);
+	//autoPrint();
+	//pros::delay(10);
+	//}
 }
 
 /**
@@ -32,13 +32,13 @@ void disabled() {
  */
 void competition_initialize() {
 	//lemlib::Pose og = lemlib::Pose(chassis.getPose());
-	//chassis.calibrate(true);
+	chassis.calibrate(true);
 	//chassis.setPose(og);
-	while(true){
-	autoSet(-1);
-	autoPrint();
-	pros::delay(10);
-	}
+	//while(true){
+	//autoSet(-1);
+	//autoPrint();
+	//pros::delay(10);
+	//}
 }
 
 /**
@@ -53,8 +53,8 @@ void competition_initialize() {
  * from where it left off.
  */
 void autonomous() {
-	autoSet(-1);
-	autoPrint();
+	autoSet(2);
+	//autoPrint();
 	autoRun();
 }
 
@@ -77,14 +77,14 @@ void opcontrol() {
 	
 	  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
 
-	chassis.calibrate();
+	//chassis.calibrate();
 
 	while (true) {
 		pros::lcd::set_text(0, "X: " + std::to_string(chassis.getPose().x));
 		pros::lcd::set_text(1, "Y: " + std::to_string(chassis.getPose().y));
 		pros::lcd::set_text(2, "O: " + std::to_string(chassis.getPose().theta));
-		autoSet(-1);
-		autoPrint();
+		//autoSet(-1);
+		//autoPrint();
 		driveLoop();
 		intakeLoop();
 		

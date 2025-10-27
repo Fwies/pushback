@@ -2,7 +2,7 @@
 bool hoodState =false;
 bool trapDoorState = false;
 bool slow = false;
-pros::adi::Pneumatics trapDoor('c', false);
+//pros::adi::Pneumatics trapDoor('c', false);
 pros::adi::Pneumatics hood('f', false);
 pros::adi::Pneumatics tongue('a', false);
 void setHood(bool in){
@@ -11,47 +11,67 @@ void setHood(bool in){
         hood.toggle();
     }
 }
-void setTrapDoor(bool in){
-    if (trapDoorState != in){
-        trapDoorState = !trapDoorState;
-        trapDoor.toggle();
-    }
-}
 
-pros::Motor I1 ((int)-20, pros::v5::MotorGears::blue, pros::MotorUnits::rotations);
-pros::Motor I2 ((int)12, pros::v5::MotorGears::blue, pros::MotorUnits::rotations);
-pros::MotorGroup intake({12,20});
+
+pros::Motor I1 ((int)10, pros::v5::MotorGears::blue, pros::MotorUnits::rotations);
+pros::Motor I2 ((int)9, pros::v5::MotorGears::blue, pros::MotorUnits::rotations);
+pros::Motor I3 ((int)-21, pros::v5::MotorGears::blue, pros::MotorUnits::rotations);
+//pros::MotorGroup intake({12,20});
 void intakeIn(){
     setHood(false);
-    setTrapDoor(false);
-        intake.move_velocity(600);
+    
+        I1.move_velocity(600);
+        I2.move_velocity(60);
+        I3.move_velocity(600);
 }
 void intakeOutLow(bool slowin){
-    setTrapDoor(false);
+    
     if(!slowin){
-    intake.move_velocity(-600);
+        I1.move_velocity(-600);
+        I2.move_velocity(-500);
+        I3.move_velocity(-600);
     }
     else{
-       intake.move_velocity(-250);
+        I1.move_velocity(-300);
+        I2.move_velocity(-250);
+        I3.move_velocity(-300);
     }
 }
 void intakeOutMid(bool slowin){
-    setTrapDoor(true);
+    
     if(!slowin){
-    intake.move_velocity(600);
+    I1.move_velocity(600);
+        I2.move_velocity(600);
+        I3.move_velocity(-600);
     }
     else{
-        intake.move_velocity(200);
+        I1.move_velocity(300);
+        I2.move_velocity(300);
+        I3.move_velocity(-200);
     }
     
 }
-void intakeOutHigh(){
+int intakeRev = 0;
+void intakeOutHigh(bool inauton){
     setHood(true);
-    setTrapDoor(false);
-        intake.move_velocity(600);
+    
+        I3.move_velocity(600);
+        if(intakeRev<=20&&!inauton){
+            I1.move_velocity(-200);
+            I2.move_velocity(-200);
+            intakeRev++;
+        }
+        else{
+            I1.move_velocity(600);
+            I2.move_velocity(600);
+            
+        }
 }
 void intakeStop(){
-    intake.move_velocity(0);
+        I1.move_velocity(0);
+        I2.move_velocity(0);
+        I3.move_velocity(0);
+        intakeRev=0;
 }
 void intakeLoop(){
     I1.set_brake_mode(MOTOR_BRAKE_HOLD);
@@ -73,7 +93,7 @@ void intakeLoop(){
         
     }
     else if(master.get_digital(DIGITAL_L1)){
-        intakeOutHigh();
+        intakeOutHigh(false);
     }
     else if(master.get_digital(DIGITAL_L2)){
         intakeOutMid(slow);

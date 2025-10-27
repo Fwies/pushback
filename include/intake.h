@@ -2,9 +2,9 @@ void intakeLoop();
 void intakeIn();
 void intakeOutLow(bool slowin);
 void intakeOutMid(bool slowin);
-void intakeOutHigh();
+void intakeOutHigh(bool inauton);
 void intakeStop();
 extern pros::adi::Pneumatics tongue;
-
+extern pros::Motor I3;
 void setHood(bool in);
 void setTrapDoor(bool in);

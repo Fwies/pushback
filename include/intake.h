@@ -6,5 +6,7 @@ void intakeOutHigh(bool inauton);
 void intakeStop();
 extern pros::adi::Pneumatics tongue;
 extern pros::Motor I3;
+extern pros::Motor I2;
+extern pros::Motor I1;
 void setHood(bool in);
 void setTrapDoor(bool in);

@@ -64,6 +64,12 @@ lemlib::OdomSensors sensors(&vertical_tracking_wheel, // vertical tracking wheel
                             nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
                             &imu // inertial sensor
 );
+lemlib::OdomSensors ssensors(&vertical_tracking_wheel, // vertical tracking wheel 1, set to null
+                            nullptr, // vertical tracking wheel 2, set to nullptr as we are using IMEs
+                            nullptr,//&horizontal_tracking_wheel, // horizontal tracking wheel 1
+                            nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
+                            &imu // inertial sensor
+);
 
 // lateral PID controller
 lemlib::ControllerSettings lateral_controller(9, // proportional gain (kP)
@@ -94,4 +100,9 @@ lemlib::Chassis chassis(drivetrain, // drivetrain settings
                         lateral_controller, // lateral PID settings
                         angular_controller, // angular PID settings
                         sensors // odometry sensors
+);
+lemlib::Chassis schassis(drivetrain, // drivetrain settings
+                        lateral_controller, // lateral PID settings
+                        angular_controller, // angular PID settings
+                        ssensors // odometry sensors
 );

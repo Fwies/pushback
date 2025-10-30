@@ -40,7 +40,79 @@ void autoSet(int in){//-1 means pot
     }
 }
 void autoLeft(){
+    chassis.moveToPoint(-22,27.2,2000,{},true);//140
+    chassis.waitUntil(7);
+    chassis.cancelMotion();
+    intakeIn();
+    chassis.moveToPoint(-22,27.2,2000,{.maxSpeed=30,.minSpeed=30,.earlyExitRange=3},false);//140
     
+    chassis.moveToPoint(-27,29,2000,{.maxSpeed=35,.minSpeed=35,.earlyExitRange=3},false);//140
+    /*chassis.moveToPoint(17.5,26.2,2000,{.forwards=false,.earlyExitRange=3},true);
+    chassis.turnToPoint(0,40,1500,{.maxSpeed=120},false);//
+    chassis.moveToPoint(0,40,1500,{.maxSpeed=120},false);//
+    intakeOutLow(true);
+    pros::delay(1300);
+    chassis.moveToPoint(17.5,24.2,2000,{.forwards=false,.earlyExitRange=3},false);
+    intakeStop();
+    */
+    intakeStop();
+    chassis.turnToPoint(-34.5,32,2500,{},false);
+    chassis.moveToPoint(-34.5,32,2500,{},false);
+    chassis.turnToHeading(298,2500,{.maxSpeed=60},false);
+    //chassis.moveToPoint(36,35,3000,{},false);
+    tongue.toggle();
+    pros::delay(200);
+    chassis.swingToHeading(282,DriveSide::LEFT,500,{},false);
+    
+    chassis.moveToPoint(-20,20,1500,{.forwards=false},false);//22,22
+    //chassis.turnToHeading(45,1000,{},false);
+    
+    //pros::delay(300);
+    //chassis.turnToHeading(45,1000,{},false);
+    chassis.turnToPoint(-9,27,1500,{.forwards=false,.maxSpeed=60},true);//turns to the goal
+    //tongue.toggle();
+    //pros::delay(300);
+    //chassis.moveToPose(19,19,315,1500,{},true);
+    //chassis.waitUntil(200);
+    
+    
+    chassis.waitUntilDone();
+    
+    //chassis.turnToHeading(chassis.getPose().theta-18,600,{.earlyExitRange=5},false); //wigglywobllywigglywobblywhoeo
+    //chassis.waitUntilDone();
+    
+    //pros::delay(30000);
+    //chassis.turnToPoint(5.1,27.1,1800,{},false);
+    chassis.moveToPoint(-9,27,1800,{.forwards=false,.maxSpeed=60},false);//going into goal
+    intakeOutMid(true);
+    //I3.move_velocity(600);
+
+    
+    pros::delay(900);
+     intakeStop();
+     pros::delay(150);
+     
+     chassis.moveToPoint(-45,-5,2500,{},true);
+     chassis.waitUntil(32);
+     chassis.cancelMotion();
+    chassis.moveToPoint(-45,-5,2500,{.maxSpeed=30},false);
+    chassis.turnToPoint(-45,-24,2500,{.maxSpeed=70},false);
+    //tongue.toggle();
+    pros::delay(400);
+    chassis.moveToPoint(-45,-24,1200,{.maxSpeed=60},true);
+    pros::delay(500);
+    intakeIn();
+    pros::delay(700);
+    chassis.waitUntilDone();
+    
+    chassis.moveToPoint(-44,9,1000,{.forwards=false,.maxSpeed=90},false);
+    chassis.turnToHeading(180,{});
+    setHood(true);
+    I3.move_velocity(600);
+    I2.move_velocity(-300);
+    I1.move_velocity(-300);
+    pros::delay(200);
+    intakeOutHigh(true);
 
 
 }
@@ -57,29 +129,220 @@ void autoRight(){
     
     chassis.turnToHeading(0,2000,{},false);
      master.rumble(".");*/
-     chassis.setPose(0,0,180,{false});
-     
-     chassis.moveToPose(-12.5,34,142,2000,{.forwards=false},false);//140
+     /*chassis.setPose(0,0,180,{false});
+     I3.move_velocity(10);
+    chassis.moveToPoint(-8,34,3000,{.forwards=false},false);//140
+    chassis.turnToHeading(142,3000,{},false);*/
+    //chassis.moveToPose(142,2000,{},false);//140
      //intakeOutHigh(true);
-    setHood(true);
-     I3.move_velocity(100);
-     pros::delay(400);
-     intakeStop();
-     intakeIn();
-     chassis.moveToPoint(17.5,26.2,2000,{},true);//140
-    chassis.waitUntil(8);
+    //setHood(true);
+     
+     //pros::delay(600);
+     //intakeStop();
+     //intakeIn();
+     //chassis.moveToPoint(2,14,2000,{.earlyExitRange=3},false);//140
+    
+    chassis.moveToPoint(22,27.2,2000,{},true);//140
+    chassis.waitUntil(7);
     chassis.cancelMotion();
-    chassis.moveToPoint(17.5,26.2,2000,{.maxSpeed=50},true);//140
-    chassis.waitUntil(8);
+    intakeIn();
+    chassis.moveToPoint(22,27.2,2000,{.maxSpeed=30,.minSpeed=30,.earlyExitRange=3},false);//140
+    
+    chassis.moveToPoint(27,29,2000,{.maxSpeed=35,.minSpeed=35,.earlyExitRange=3},false);//140
+    /*chassis.moveToPoint(17.5,26.2,2000,{.forwards=false,.earlyExitRange=3},true);
+    chassis.turnToPoint(0,40,1500,{.maxSpeed=120},false);//
+    chassis.moveToPoint(0,40,1500,{.maxSpeed=120},false);//
+    intakeOutLow(true);
+    pros::delay(1300);
+    chassis.moveToPoint(17.5,24.2,2000,{.forwards=false,.earlyExitRange=3},false);
+    intakeStop();
+    */
+    intakeStop();
+    chassis.turnToPoint(34,31,2500,{},false);
+    chassis.moveToPoint(34,31,2500,{},false);
+    chassis.turnToHeading(62,2500,{.maxSpeed=60},false);
+    //chassis.moveToPoint(36,35,3000,{},false);
     tongue.toggle();
+    pros::delay(200);
+    chassis.swingToHeading(76,DriveSide::RIGHT,500,{},false);
+    
+    chassis.moveToPoint(16,16,1500,{.forwards=false},false);//22,22
+    //chassis.turnToHeading(45,1000,{},false);
+    
+    //pros::delay(300);
+    //chassis.turnToHeading(45,1000,{},false);
+    chassis.swingToPoint(7,32,DriveSide::LEFT,1500,{.maxSpeed=60},true);//turns to the goal
+    tongue.toggle();
+    //pros::delay(300);
+    //chassis.moveToPose(19,19,315,1500,{},true);
+    //chassis.waitUntil(200);
+    
+    intakeIn();
     chassis.waitUntilDone();
-    chassis.moveToPoint(-2.3,42.8,2000,{.maxSpeed=60},true);//
-    chassis.waitUntil(9);
+    
+    //chassis.turnToHeading(chassis.getPose().theta-18,600,{.earlyExitRange=5},false); //wigglywobllywigglywobblywhoeo
+    //chassis.waitUntilDone();
+    
+    //pros::delay(30000);
+    //chassis.turnToPoint(5.1,27.1,1800,{},false);
+    chassis.moveToPoint(4,31,1800,{.maxSpeed=60},false);//going into goal
+    intakeOutLow(true);
+    I3.move_velocity(600);
+
+    
+    pros::delay(1100);
+     intakeIn();
+     pros::delay(100);
+     intakeStop();
+     chassis.moveToPoint(39,-5,2500,{.forwards=false},true);
+     chassis.waitUntil(32);
+     chassis.cancelMotion();
+    chassis.moveToPoint(39,-5,2500,{.forwards=false,.maxSpeed=30},false);
+    chassis.turnToPoint(39,-24,2500,{.maxSpeed=70},false);
     tongue.toggle();
+    pros::delay(400);
+    chassis.moveToPoint(39,-24,1200,{.maxSpeed=60},true);
+    pros::delay(500);
+    intakeIn();
+    pros::delay(500);
+    chassis.waitUntilDone();
+    
+    chassis.moveToPoint(40,9,1000,{.forwards=false,.maxSpeed=90},false);
+    chassis.turnToHeading(180,{});
+    setHood(true);
+    I3.move_velocity(600);
+    I2.move_velocity(-300);
+    I1.move_velocity(-300);
+    pros::delay(200);
+    intakeOutHigh(true);
+
+
+    
+    
+    
+    
+    
+    //tongue.toggle();
      
 }
 void autoSkills(){
+    schassis.moveToPoint(23,27,2000,{},true);//140
+    schassis.waitUntil(7);
+    schassis.cancelMotion();
+    intakeIn();
+    schassis.moveToPoint(23,27,2500,{.maxSpeed=25,.minSpeed=25,.earlyExitRange=7},false);//140
+    schassis.moveToPoint(25,37,2500,{.maxSpeed=30,.minSpeed=30},false);
+    //schassis.swingToHeading(315,DriveSide::LEFT,1500,{.maxSpeed=70},false);
+    //schassis.moveToPoint(32,34,4000,{.maxSpeed=35,.minSpeed=35},false);//140
+    intakeStop();
+    schassis.moveToPoint(22,22,1500,{.forwards=false},false);
+    schassis.turnToPoint(8,35,1000,{},false);
+    schassis.moveToPoint(8,35,1500,{},false);
+    intakeOutLow(true);
+    pros::delay(2300);
+    intakeStop();
+    schassis.moveToPoint(40,0,1500,{.forwards=false},false);
+    schassis.turnToPoint(40,-50,1900,{.maxSpeed=70},false);
+    tongue.toggle();
+    pros::delay(400);
+    schassis.moveToPoint(40,-50,2000,{.maxSpeed=50},true);
+    pros::delay(400);
+    intakeIn();
+    pros::delay(1800);
+    intakeStop();
+    schassis.moveToPoint(40,20,3000,{.forwards=false,.maxSpeed=50},true);
+    pros::delay(1500);
+    intakeOutHigh(true);
+    pros::delay(2000);
+    tongue.toggle();
+    intakeStop();
+    schassis.moveToPoint(40,0,2000,{},false);
+    schassis.turnToPoint(22,24,2000,{},false);
+    schassis.moveToPoint(22,24,1000,{.earlyExitRange=5},false);
+    schassis.moveToPoint(30,55,3000,{},false);
+    schassis.turnToPoint(4,89,3000,{},false);
+    intakeIn();
+    //schassis.moveToPoint(4,84,3000,{},false);
+    schassis.moveToPoint(4,89,2500,{.maxSpeed=25,.minSpeed=25,.earlyExitRange=9},false);
+    schassis.moveToPoint(12,87,2500,{.maxSpeed=30,.minSpeed=30},false);
+    intakeStop();
+    /*schassis.moveToPoint(12,65,2000,{.forwards=false},false);
+    schassis.turnToPoint(5.5,59,1500,{.forwards=false},false);
+    schassis.moveToPoint(5.5,59,1500,{.forwards=false},false);
+    schassis.turnToHeading(45,1000,{},true);*/
+    //intakeOutMid(true);
+    //pros::delay(2500);
+    //intakeStop();
     
+    schassis.moveToPoint(42,90,1800,{.forwards=false},false);
+    schassis.turnToPoint(42,75,1800,{.forwards=false},false);
+    schassis.moveToPoint(42,75,3000,{.forwards=false,.maxSpeed=50},true);
+    pros::delay(1500);
+    intakeOutHigh(true);
+    pros::delay(2000);
+     schassis.turnToPoint(42,120,1900,{.maxSpeed=70},false);
+    tongue.toggle();
+    pros::delay(400);
+    schassis.moveToPoint(42,120,2000,{.maxSpeed=50},true);
+    pros::delay(400);
+    intakeIn();
+    pros::delay(1800);
+    intakeStop();
+    
+     schassis.moveToPoint(42,75,3000,{.forwards=false,.maxSpeed=50},true);
+    pros::delay(1500);
+    intakeOutHigh(true);
+    pros::delay(2000);
+    tongue.toggle();
+    intakeStop();
+    schassis.moveToPoint(42,83,3000,{},false);
+
+
+    schassis.swingToPoint(-16,78,DriveSide::LEFT,1000,{},false);
+    schassis.moveToPoint(-16,78,1500,{},false);
+    intakeIn();
+    schassis.turnToPoint(-32,70.5,1000,{},false);
+    schassis.moveToPoint(-32,70.5,1500,{.maxSpeed=25,.minSpeed=25,.earlyExitRange=4},false);
+    schassis.moveToPoint(-40,73,2500,{.maxSpeed=30,.minSpeed=30},false);
+    intakeStop();
+    schassis.moveToPoint(-31,68,1500,{.forwards=false},false);
+    schassis.moveToPoint(-56,90,1500,{.forwards=false},false);
+    schassis.turnToPoint(-56,75,1500,{.forwards=false,.maxSpeed=60},false);
+    schassis.moveToPoint(-56,75,3000,{.forwards=false,.maxSpeed=50},true);
+    pros::delay(1500);
+    intakeOutHigh(true);
+    pros::delay(2000);
+    intakeStop();
+
+    schassis.turnToPoint(-54,120,1900,{.maxSpeed=70},false);
+    tongue.toggle();
+    pros::delay(400);
+    schassis.moveToPoint(-54,120,2000,{.maxSpeed=50},true);
+    pros::delay(800);
+    intakeIn();
+    pros::delay(1800);
+    intakeStop();
+    schassis.moveToPoint(-56,75,3000,{.forwards=false,.maxSpeed=50},true);
+    pros::delay(1500);
+    intakeOutHigh(true);
+    pros::delay(2000);
+    tongue.toggle();
+    intakeStop();
+
+    
+
+
+    
+    //schassis.moveToPoint(18,68,4000,{},false);
+    while(true){
+        pros::lcd::set_text(0, "sX: " + std::to_string(schassis.getPose().x));
+		pros::lcd::set_text(1, "sY: " + std::to_string(schassis.getPose().y));
+		pros::lcd::set_text(2, "sO: " + std::to_string(schassis.getPose().theta));
+    }
+
+
+
+
     
 
 }

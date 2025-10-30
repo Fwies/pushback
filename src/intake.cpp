@@ -32,9 +32,9 @@ void intakeOutLow(bool slowin){
         I3.move_velocity(-600);
     }
     else{
-        I1.move_velocity(-300);
-        I2.move_velocity(-250);
-        I3.move_velocity(-300);
+        I1.move_velocity(-200);
+        I2.move_velocity(-200);
+        I3.move_velocity(-100);
     }
 }
 void intakeOutMid(bool slowin){
@@ -45,9 +45,9 @@ void intakeOutMid(bool slowin){
         I3.move_velocity(-600);
     }
     else{
-        I1.move_velocity(300);
-        I2.move_velocity(300);
-        I3.move_velocity(-200);
+        I1.move_velocity(150);
+        I2.move_velocity(150);
+        I3.move_velocity(-300);
     }
     
 }

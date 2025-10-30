@@ -14,6 +14,7 @@ void initialize() {
  * the robot is enabled, this task will exit.
  */
 void disabled() {
+	schassis.calibrate(true);
 	//while(true){
 	//autoSet(-1);
 	//autoPrint();
@@ -32,7 +33,7 @@ void disabled() {
  */
 void competition_initialize() {
 	//lemlib::Pose og = lemlib::Pose(chassis.getPose());
-	chassis.calibrate(true);
+	schassis.calibrate(true);
 	//chassis.setPose(og);
 	//while(true){
 	//autoSet(-1);
@@ -53,7 +54,7 @@ void competition_initialize() {
  * from where it left off.
  */
 void autonomous() {
-	autoSet(2);
+	autoSet(3);
 	//autoPrint();
 	autoRun();
 }
@@ -83,6 +84,9 @@ void opcontrol() {
 		pros::lcd::set_text(0, "X: " + std::to_string(chassis.getPose().x));
 		pros::lcd::set_text(1, "Y: " + std::to_string(chassis.getPose().y));
 		pros::lcd::set_text(2, "O: " + std::to_string(chassis.getPose().theta));
+		pros::lcd::set_text(0, "sX: " + std::to_string(schassis.getPose().x));
+		pros::lcd::set_text(1, "sY: " + std::to_string(schassis.getPose().y));
+		pros::lcd::set_text(2, "sO: " + std::to_string(schassis.getPose().theta));
 		//autoSet(-1);
 		//autoPrint();
 		driveLoop();

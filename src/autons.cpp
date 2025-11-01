@@ -226,26 +226,26 @@ void autoRight(){
      
 }
 void autoSkills(){
-    schassis.moveToPoint(23,27,2000,{},true);//140
+    schassis.moveToPoint(23,28,2000,{.maxSpeed=80},true);//140
     schassis.waitUntil(7);
     schassis.cancelMotion();
     intakeIn();
-    schassis.moveToPoint(23,27,2500,{.maxSpeed=25,.minSpeed=25,.earlyExitRange=7},false);//140
+    schassis.moveToPoint(23,28,2500,{.maxSpeed=25,.minSpeed=25,.earlyExitRange=7},false);//140
     schassis.moveToPoint(25,37,2500,{.maxSpeed=30,.minSpeed=30},false);
     //schassis.swingToHeading(315,DriveSide::LEFT,1500,{.maxSpeed=70},false);
     //schassis.moveToPoint(32,34,4000,{.maxSpeed=35,.minSpeed=35},false);//140
     intakeStop();
-    schassis.moveToPoint(22,22,1500,{.forwards=false},false);
-    schassis.turnToPoint(8,35,1000,{},false);
-    schassis.moveToPoint(8,35,1500,{},false);
+    schassis.moveToPoint(19,22,1500,{.forwards=false},false);
+    schassis.turnToPoint(6,35,1000,{},false);
+    schassis.moveToPoint(6,35,1500,{},false);
     intakeOutLow(true);
     pros::delay(2300);
     intakeStop();
     schassis.moveToPoint(40,0,1500,{.forwards=false},false);
-    schassis.turnToPoint(40,-50,1900,{.maxSpeed=70},false);
+    schassis.turnToPoint(36.7,-50,1900,{.maxSpeed=70},false);
     tongue.toggle();
     pros::delay(400);
-    schassis.moveToPoint(40,-50,2000,{.maxSpeed=50},true);
+    schassis.moveToPoint(36.7,-50,2000,{.maxSpeed=50},true);
     pros::delay(400);
     intakeIn();
     pros::delay(1800);
@@ -255,17 +255,21 @@ void autoSkills(){
     intakeOutHigh(true);
     pros::delay(2000);
     tongue.toggle();
-    intakeStop();
+    //intakeStop();
+    intakeOutLow(false);
     schassis.moveToPoint(40,0,2000,{},false);
-    schassis.turnToPoint(22,24,2000,{},false);
-    schassis.moveToPoint(22,24,1000,{.earlyExitRange=5},false);
-    schassis.moveToPoint(30,55,3000,{},false);
-    schassis.turnToPoint(4,89,3000,{},false);
-    intakeIn();
-    //schassis.moveToPoint(4,84,3000,{},false);
-    schassis.moveToPoint(4,89,2500,{.maxSpeed=25,.minSpeed=25,.earlyExitRange=9},false);
-    schassis.moveToPoint(12,87,2500,{.maxSpeed=30,.minSpeed=30},false);
     intakeStop();
+    schassis.turnToPoint(30,12,2000,{},false);
+    schassis.moveToPoint(30,12,1000,{.minSpeed=1,.earlyExitRange=1},false);
+    // schassis.moveToPoint(30,55,3000,{},false);
+    // schassis.turnToPoint(4,89,3000,{},false);
+    // intakeIn();
+    // //schassis.moveToPoint(4,84,3000,{},false);
+    // schassis.moveToPoint(4,89,2500,{.maxSpeed=25,.minSpeed=25,.earlyExitRange=9},false);
+    // schassis.moveToPoint(8,87,2500,{.maxSpeed=30,.minSpeed=30},false);
+    // intakeStop();
+
+    
     /*schassis.moveToPoint(12,65,2000,{.forwards=false},false);
     schassis.turnToPoint(5.5,59,1500,{.forwards=false},false);
     schassis.moveToPoint(5.5,59,1500,{.forwards=false},false);
@@ -273,61 +277,95 @@ void autoSkills(){
     //intakeOutMid(true);
     //pros::delay(2500);
     //intakeStop();
-    
-    schassis.moveToPoint(42,90,1800,{.forwards=false},false);
-    schassis.turnToPoint(42,75,1800,{.forwards=false},false);
-    schassis.moveToPoint(42,75,3000,{.forwards=false,.maxSpeed=50},true);
-    pros::delay(1500);
-    intakeOutHigh(true);
-    pros::delay(2000);
-     schassis.turnToPoint(42,120,1900,{.maxSpeed=70},false);
+    //intakeOutLow(true);
+    schassis.moveToPoint(31,80,1800,{},true);
+    schassis.waitUntil(36);
+    schassis.cancelMotion();
+    schassis.moveToPoint(31,80,1800,{.maxSpeed=50},false);
+
+    schassis.moveToPoint(43,90,1800,{},false);
+    intakeOutLow(false);
     tongue.toggle();
+     schassis.turnToHeading(0,1000,{.maxSpeed=70},false);
+
     pros::delay(400);
-    schassis.moveToPoint(42,120,2000,{.maxSpeed=50},true);
+    schassis.moveToPoint(43,120,2000,{.maxSpeed=50},true);
     pros::delay(400);
     intakeIn();
     pros::delay(1800);
     intakeStop();
     
-     schassis.moveToPoint(42,75,3000,{.forwards=false,.maxSpeed=50},true);
+     schassis.moveToPoint(43,75,1800,{.forwards=false,.maxSpeed=50},true);
+     //schassis.turnToHeading(0,1000);
     pros::delay(1500);
     intakeOutHigh(true);
     pros::delay(2000);
     tongue.toggle();
     intakeStop();
-    schassis.moveToPoint(42,83,3000,{},false);
+    schassis.moveToPoint(39,83,3000,{},false);
 
 
-    schassis.swingToPoint(-16,78,DriveSide::LEFT,1000,{},false);
-    schassis.moveToPoint(-16,78,1500,{},false);
+    schassis.turnToPoint(-12,82,1000,{},false);
+    schassis.moveToPoint(-12,82,1500,{},true);
+    schassis.waitUntil(36);
+    schassis.cancelMotion();
+    schassis.moveToPoint(-12,82,1500,{.maxSpeed=50},false);
     intakeIn();
-    schassis.turnToPoint(-32,70.5,1000,{},false);
-    schassis.moveToPoint(-32,70.5,1500,{.maxSpeed=25,.minSpeed=25,.earlyExitRange=4},false);
-    schassis.moveToPoint(-40,73,2500,{.maxSpeed=30,.minSpeed=30},false);
+    schassis.turnToPoint(-32,67,1000,{},false);
+    schassis.moveToPoint(-32,67,1500,{.maxSpeed=25,.minSpeed=25,.earlyExitRange=4},false);
+    schassis.moveToPoint(-40,73,2500,{.maxSpeed=30,.minSpeed=30,.earlyExitRange=4},false);
     intakeStop();
-    schassis.moveToPoint(-31,68,1500,{.forwards=false},false);
-    schassis.moveToPoint(-56,90,1500,{.forwards=false},false);
-    schassis.turnToPoint(-56,75,1500,{.forwards=false,.maxSpeed=60},false);
-    schassis.moveToPoint(-56,75,3000,{.forwards=false,.maxSpeed=50},true);
+    schassis.moveToPoint(-31,68,1500,{.forwards=false,.maxSpeed=60},false);
+    schassis.turnToPoint(-52,90,1500,{.forwards=false},false);
+    schassis.moveToPoint(-52,90,1500,{.forwards=false},false);
+    schassis.turnToPoint(-52,71,1500,{.forwards=false,.maxSpeed=60},false);
+    schassis.moveToPoint(-52,71,1500,{.forwards=false,.maxSpeed=50},true);
     pros::delay(1500);
     intakeOutHigh(true);
     pros::delay(2000);
     intakeStop();
 
-    schassis.turnToPoint(-54,120,1900,{.maxSpeed=70},false);
+    schassis.turnToPoint(-50,107,1900,{.maxSpeed=70},false);
     tongue.toggle();
     pros::delay(400);
-    schassis.moveToPoint(-54,120,2000,{.maxSpeed=50},true);
+    schassis.moveToPoint(-50,107,2000,{.maxSpeed=50},true);
     pros::delay(800);
     intakeIn();
     pros::delay(1800);
     intakeStop();
-    schassis.moveToPoint(-56,75,3000,{.forwards=false,.maxSpeed=50},true);
+    schassis.moveToPoint(-52,71,1500,{.forwards=false,.maxSpeed=50},true);
     pros::delay(1500);
     intakeOutHigh(true);
     pros::delay(2000);
     tongue.toggle();
+    intakeOutLow(true);
+    pros::delay(200);
+    
+    intakeOutLow(false);
+    schassis.moveToPoint(-52,90,1500,{},false);
     intakeStop();
+    schassis.moveToPoint(-40,75,3000,{},false);
+    schassis.moveToPoint(-42,-13,4000,{},false);
+    double y = schassis.getPose().y;
+    schassis.setPose(schassis.getPose().x,schassis.getPose().y,180,false);
+    schassis.turnToPoint(-4,y-10,1000,{},false);
+    intakeOutLow(false);
+    schassis.moveToPoint(-4,y-10,3000,{.maxSpeed=127,.minSpeed=80},false);
+    schassis.moveToPoint(-12,y-10,3000,{.forwards=false,.maxSpeed=127,.minSpeed=80},false);
+    /*schassis.moveToPoint(-62,0,3000,{},false);
+
+    schassis.turnToPoint(-62,-30,1900,{.maxSpeed=70},false);
+    tongue.toggle();
+    pros::delay(400);
+    schassis.moveToPoint(-62,-30,2000,{.maxSpeed=50},true);
+    pros::delay(800);
+    intakeIn();
+    pros::delay(1800);
+    intakeStop();
+    schassis.moveToPoint(-62,20,1500,{.forwards=false,.maxSpeed=50},true);
+    pros::delay(1500);
+    intakeOutHigh(true);
+    pros::delay(2000);*/
 
     
 

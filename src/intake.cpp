@@ -20,7 +20,11 @@ pros::Motor I3 ((int)-21, pros::v5::MotorGears::blue, pros::MotorUnits::rotation
 void intakeIn(){
     setHood(false);
     
+
         I1.move_velocity(600);
+
+
+
         I2.move_velocity(60);
         I3.move_velocity(600);
 }

@@ -3,6 +3,8 @@ void intakeIn();
 void intakeOutLow(bool slowin);
 void intakeOutMid(bool slowin);
 void intakeOutHigh(bool inauton);
+void intakeOutHighAuto();
+
 void intakeStop();
 extern pros::adi::Pneumatics tongue;
 extern pros::Motor I3;

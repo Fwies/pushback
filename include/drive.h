@@ -3,3 +3,4 @@
 extern lemlib::Chassis chassis;
 extern lemlib::Chassis schassis;
 void driveLoop();
+extern double mult;

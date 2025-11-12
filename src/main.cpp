@@ -1,6 +1,7 @@
 #include "main.h"
 #include <string>
 pros::Controller master(pros::E_CONTROLLER_MASTER);
+pros::Controller partner(pros::E_CONTROLLER_PARTNER);
 
 void initialize() {
 	pros::lcd::initialize();
@@ -14,12 +15,12 @@ void initialize() {
  * the robot is enabled, this task will exit.
  */
 void disabled() {
-	schassis.calibrate(true);
-	//while(true){
-	//autoSet(-1);
-	//autoPrint();
-	//pros::delay(10);
-	//}
+	//chassis.calibrate(true);
+	while(true){
+	autoSet(-1);
+	autoPrint();
+	pros::delay(10);
+	}
 }
 
 /**
@@ -33,13 +34,20 @@ void disabled() {
  */
 void competition_initialize() {
 	//lemlib::Pose og = lemlib::Pose(chassis.getPose());
-	schassis.calibrate(true);
+	autoSet(-1);
+	autoPrint();
+	if(auton == 3){
+		schassis.calibrate(true);
+	}
+	else{
+		chassis.calibrate(true);
+	}
 	//chassis.setPose(og);
-	//while(true){
-	//autoSet(-1);
-	//autoPrint();
-	//pros::delay(10);
-	//}
+	while(true){
+	autoSet(-1);
+	autoPrint();
+	pros::delay(10);
+	}
 }
 
 /**
@@ -54,8 +62,8 @@ void competition_initialize() {
  * from where it left off.
  */
 void autonomous() {
-	autoSet(3);
-	//autoPrint();
+	autoSet(-1);
+	autoPrint();
 	autoRun();
 }
 
@@ -76,19 +84,40 @@ void autonomous() {
 
 void opcontrol() {
 	
+	
 	  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
 
-	//chassis.calibrate();
+	//schassis.calibrate();
 
 	while (true) {
-		pros::lcd::set_text(0, "X: " + std::to_string(chassis.getPose().x));
+		if(partner.get_digital(DIGITAL_R1)){
+			master.rumble(".");
+		}
+		if(auton==3){
+			if(partner.get_digital(DIGITAL_R2)){
+				mult=1;
+			}
+			else{
+				mult=0.6;
+			}
+		}
+		else{
+			if(partner.get_digital(DIGITAL_R2)){
+				mult=0.6;
+			}
+			else{
+				mult=1;
+			}
+		}
+		
+		/*pros::lcd::set_text(0, "X: " + std::to_string(chassis.getPose().x));
 		pros::lcd::set_text(1, "Y: " + std::to_string(chassis.getPose().y));
-		pros::lcd::set_text(2, "O: " + std::to_string(chassis.getPose().theta));
-		pros::lcd::set_text(0, "sX: " + std::to_string(schassis.getPose().x));
-		pros::lcd::set_text(1, "sY: " + std::to_string(schassis.getPose().y));
-		pros::lcd::set_text(2, "sO: " + std::to_string(schassis.getPose().theta));
-		//autoSet(-1);
-		//autoPrint();
+		pros::lcd::set_text(2, "O: " + std::to_string(chassis.getPose().theta));*/
+		//pros::lcd::set_text(0, "sX: " + std::to_string(schassis.getPose().x));
+		//pros::lcd::set_text(1, "sY: " + std::to_string(schassis.getPose().y));
+		//pros::lcd::set_text(2, "sO: " + std::to_string(schassis.getPose().theta));
+		autoSet(-1);
+		autoPrint();
 		driveLoop();
 		intakeLoop();
 		

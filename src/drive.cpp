@@ -8,9 +8,10 @@ pros::Motor R3 ((int)6, pros::v5::MotorGears::blue, pros::MotorUnits::rotations)
 pros::MotorGroup leftDrive({-5,-7,-1});    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
 pros::MotorGroup rightDrive({2,6,8});
 double input = 0;
+double mult = 0;
 void driveLoop(){
    //tank drive code
-    input = master.get_analog(ANALOG_LEFT_Y);
+    input = master.get_analog(ANALOG_LEFT_Y)*mult;
 		if(input>0){
 			input=(input*0.46456692913)+68;
 			
@@ -22,7 +23,7 @@ void driveLoop(){
 		
 		//pros::lcd::set_text(0, std::to_string(input));
 		leftDrive.move_voltage(((input*input*input)*0.00585281132));
-		input = master.get_analog(ANALOG_RIGHT_Y);
+		input = master.get_analog(ANALOG_RIGHT_Y)*mult;
 		if(input>0){
 			input=(input*0.46456692913)+68;
 		}

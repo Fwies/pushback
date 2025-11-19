@@ -5,6 +5,7 @@ bool slow = false;
 //pros::adi::Pneumatics trapDoor('c', false);
 pros::adi::Pneumatics hood('f', false);
 pros::adi::Pneumatics tongue('a', false);
+pros::adi::Pneumatics wing('g', false);
 void setHood(bool in){
     if (hoodState != in){
         hoodState = !hoodState;
@@ -25,13 +26,13 @@ void intakeIn(){
 
 
 
-        I2.move_velocity(30);//50
+        I2.move_velocity(400);//50
         I3.move_velocity(600);
 }
 int intakeRev = 0;
 void intakeOutLow(bool slowin){
     
-    if(!slowin){
+    if(slowin){
         I1.move_velocity(-600);
         I2.move_velocity(-500);
         
@@ -44,10 +45,10 @@ void intakeOutLow(bool slowin){
 
     }
     else{
-        I1.move_velocity(-80);
-        I2.move_velocity(-100);
+        I1.move_velocity(-150);
+        I2.move_velocity(-210);
         if(intakeRev>=20){
-            I3.move_velocity(-50);
+            I3.move_velocity(-100);
         }
         else{
             I3.move_velocity(600);
@@ -64,9 +65,9 @@ void intakeOutMid(bool slowin){
         I3.move_velocity(-600);
     }
     else{
-        I1.move_velocity(150);
-        I2.move_velocity(150);
-        I3.move_velocity(-300);
+        I1.move_velocity(-100);
+        I2.move_velocity(100);
+        I3.move_velocity(-80);
     }
     
 }
@@ -75,26 +76,26 @@ void intakeOutHigh(bool inauton){
     setHood(true);
         
         I3.move_velocity(600);
-        if(intakeRev<20){
+        if(intakeRev<30){
             I2.move_velocity(-200);
             I1.move_velocity(-200);
             intakeRev++;
         }
         else{
-        if(intakeRev<=90&&!inauton){
+        if(!inauton){
             I1.move_velocity(600);
             I2.move_velocity(600);
-            intakeRev++;
+            //intakeRev++;
         }
-        else{
+        /*else{
             I1.move_velocity(600);
             I2.move_velocity(00);
             intakeRev++;
-            if(intakeRev>=110){
+            if(intakeRev>=130){
                 intakeRev=20;
             }
             
-        }
+        }*/
         }
         
 }
@@ -125,6 +126,9 @@ void intakeLoop(){
     }
     if(master.get_digital_new_press(DIGITAL_Y)){
         tongue.toggle();
+    }
+    if(master.get_digital_new_press(DIGITAL_L2)){
+        wing.toggle();
     }
     if(master.get_digital(DIGITAL_R1)) {
         intakeIn();

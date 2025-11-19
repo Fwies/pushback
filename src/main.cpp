@@ -98,12 +98,12 @@ void opcontrol() {
 				mult=1;
 			}
 			else{
-				mult=0.6;
+				mult=0.8;
 			}
 		}
 		else{
 			if(partner.get_digital(DIGITAL_R2)){
-				mult=0.6;
+				mult=0.7;
 			}
 			else{
 				mult=1;

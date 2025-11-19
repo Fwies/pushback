@@ -7,6 +7,7 @@ void intakeOutHighAuto();
 
 void intakeStop();
 extern pros::adi::Pneumatics tongue;
+extern pros::adi::Pneumatics wing;
 extern pros::Motor I3;
 extern pros::Motor I2;
 extern pros::Motor I1;

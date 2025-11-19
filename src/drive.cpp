@@ -55,7 +55,7 @@ pros::Rotation horizontal_encoder(18);
 // horizontal tracking wheel
 
 // vertical tracking wheel
-lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, 1.9921875, -0.75);
+lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, 1.9921875, -0.875);
 lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, 0.96, -5.125);
 
 // odometry settings

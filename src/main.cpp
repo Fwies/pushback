@@ -5,8 +5,8 @@ pros::Controller partner(pros::E_CONTROLLER_PARTNER);
 
 void initialize() {
 	pros::lcd::initialize();
-	
-
+	//schassis.calibrate();
+	imu.reset();
 }
 
 /**
@@ -62,6 +62,7 @@ void competition_initialize() {
  * from where it left off.
  */
 void autonomous() {
+	
 	autoSet(-1);
 	autoPrint();
 	autoRun();
@@ -85,11 +86,19 @@ void autonomous() {
 void opcontrol() {
 	
 	
+	
 	  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
 
-	//schassis.calibrate();
+	/*schassis.calibrate();
+	schassis.setPose(0,0,270,false);
+	pros::delay(500);
 
+	distanceSensorReset();*/
 	while (true) {
+		if (master.get_digital_new_press(DIGITAL_LEFT)){
+			
+			distanceSensorReset(DS::FRONT,DS::RIGHT, 90);
+		}
 		if(partner.get_digital(DIGITAL_R1)){
 			master.rumble(".");
 		}
@@ -113,14 +122,15 @@ void opcontrol() {
 		/*pros::lcd::set_text(0, "X: " + std::to_string(chassis.getPose().x));
 		pros::lcd::set_text(1, "Y: " + std::to_string(chassis.getPose().y));
 		pros::lcd::set_text(2, "O: " + std::to_string(chassis.getPose().theta));*/
-		//pros::lcd::set_text(0, "sX: " + std::to_string(schassis.getPose().x));
-		//pros::lcd::set_text(1, "sY: " + std::to_string(schassis.getPose().y));
-		//pros::lcd::set_text(2, "sO: " + std::to_string(schassis.getPose().theta));
+		/*pros::lcd::set_text(0, "sX: " + std::to_string(schassis.getPose().x));
+		pros::lcd::set_text(1, "sY: " + std::to_string(schassis.getPose().y));
+		pros::lcd::set_text(2, "sO: " + std::to_string(schassis.getPose().theta));*/
+		
 		autoSet(-1);
 		autoPrint();
 		driveLoop();
 		intakeLoop();
 		
-		pros::delay(10);                               // Run for 20 ms then update
+		pros::delay(10);                               // Run for 10 ms then update
 	}
 }

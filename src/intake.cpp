@@ -2,32 +2,19 @@
 bool hoodState =false;
 bool trapDoorState = false;
 bool slow = false;
-//pros::adi::Pneumatics trapDoor('c', false);
+
 pros::adi::Pneumatics hood('f', false);
 pros::adi::Pneumatics tongue('a', false);
 pros::adi::Pneumatics wing('g', false);
-void setHood(bool in){
-    if (hoodState != in){
-        hoodState = !hoodState;
-        hood.toggle();
-    }
-}
 
-
-pros::Motor I1 ((int)10, pros::v5::MotorGears::blue, pros::MotorUnits::rotations);
-pros::Motor I2 ((int)9, pros::v5::MotorGears::blue, pros::MotorUnits::rotations);
+pros::Motor I1 ((int)21, pros::v5::MotorGears::blue, pros::MotorUnits::rotations);
+pros::Motor I2 ((int)21, pros::v5::MotorGears::blue, pros::MotorUnits::rotations);
 pros::Motor I3 ((int)21, pros::v5::MotorGears::blue, pros::MotorUnits::rotations);
-//pros::MotorGroup intake({12,20});
 void intakeIn(){
-    setHood(false);
-    
-
-        I1.move_velocity(600);
-
-
-
-        I2.move_velocity(400);//50
-        I3.move_velocity(600);
+    hood.retract();
+    I1.move_velocity(600);
+    I2.move_velocity(400);
+    I3.move_velocity(600);
 }
 int intakeRev = 0;
 void intakeOutLow(bool slowin){
@@ -58,9 +45,8 @@ void intakeOutLow(bool slowin){
 }
 
 void intakeOutMid(bool slowin){
-    
     if(!slowin){
-    I1.move_velocity(600);
+        I1.move_velocity(600);
         I2.move_velocity(600);
         I3.move_velocity(-600);
     }
@@ -71,9 +57,9 @@ void intakeOutMid(bool slowin){
     }
     
 }
-
-void intakeOutHigh(bool inauton){
-    setHood(true);
+void intakeOutHigh(int ms){
+    if(ms<0){
+        hood.extend();    
         
         I3.move_velocity(600);
         if(intakeRev<30){
@@ -82,32 +68,16 @@ void intakeOutHigh(bool inauton){
             intakeRev++;
         }
         else{
-        if(!inauton){
             I1.move_velocity(600);
-            I2.move_velocity(600);
-            //intakeRev++;
+            I2.move_velocity(600);    
         }
-        /*else{
-            I1.move_velocity(600);
-            I2.move_velocity(00);
-            intakeRev++;
-            if(intakeRev>=130){
-                intakeRev=20;
-            }
-            
-        }*/
+    }
+    else{
+        for(int i = 0; i<ms/10; i++){
+            intakeOutHigh();
+            pros::delay(10);
         }
-        
-}
-void intakeOutHighAuto(){
-    setHood(true);
-    I3.move_velocity(600);
-    I2.move_velocity(-200);
-    I1.move_velocity(-50);
-    pros::delay(200);
-    I3.move_velocity(600);
-    I2.move_velocity(600);
-    I1.move_velocity(600);
+    }
 }
 void intakeStop(){
         I1.move_velocity(0);
@@ -116,8 +86,6 @@ void intakeStop(){
         intakeRev=0;
 }
 void intakeLoop(){
-    //I1.set_brake_mode(MOTOR_BRAKE_HOLD);
-    //I2.set_brake_mode(MOTOR_BRAKE_HOLD);
     if(master.get_digital(DIGITAL_RIGHT)){
         slow = true;
     }
@@ -138,13 +106,12 @@ void intakeLoop(){
         
     }
     else if(master.get_digital(DIGITAL_L1)){
-        intakeOutHigh(false);
+        intakeOutHigh();
     }
     else if(master.get_digital(DIGITAL_L2)){
         intakeOutMid(slow);
     }
     else{
-        //intakeRev=0;
         intakeStop();
     }
 

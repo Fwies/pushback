@@ -6,7 +6,7 @@ pros::Controller partner(pros::E_CONTROLLER_PARTNER);
 void initialize() {
 	pros::lcd::initialize();
 	//schassis.calibrate();
-	imu.reset();
+	//imu.reset();
 }
 
 /**
@@ -84,6 +84,8 @@ void autonomous() {
 
 
 void opcontrol() {
+	schassis.calibrate();
+	schassis.setPose(-50,50,schassis.getPose().theta+180,false);
 	
 	
 	
@@ -96,8 +98,14 @@ void opcontrol() {
 	distanceSensorReset();*/
 	while (true) {
 		if (master.get_digital_new_press(DIGITAL_LEFT)){
+			distanceSensorReset(DS::FRONT,DS::RIGHT, 270);
+			pros::lcd::set_text(0, "sX: " + std::to_string(schassis.getPose().x));
+			pros::lcd::set_text(1, "sY: " + std::to_string(schassis.getPose().y));
+			pros::lcd::set_text(2, "sO: " + std::to_string(schassis.getPose().theta));
+			schassis.moveToPoint(24,-24,3000,{.maxSpeed=45},false);
+			schassis.turnToPoint(24,-44,3000,{.forwards=false,.maxSpeed=45},false);
+			schassis.moveToPoint(24,-44,3000,{.forwards=false,.maxSpeed=45},false);
 			
-			distanceSensorReset(DS::FRONT,DS::RIGHT, 90);
 		}
 		if(partner.get_digital(DIGITAL_R1)){
 			master.rumble(".");
@@ -122,9 +130,7 @@ void opcontrol() {
 		/*pros::lcd::set_text(0, "X: " + std::to_string(chassis.getPose().x));
 		pros::lcd::set_text(1, "Y: " + std::to_string(chassis.getPose().y));
 		pros::lcd::set_text(2, "O: " + std::to_string(chassis.getPose().theta));*/
-		/*pros::lcd::set_text(0, "sX: " + std::to_string(schassis.getPose().x));
-		pros::lcd::set_text(1, "sY: " + std::to_string(schassis.getPose().y));
-		pros::lcd::set_text(2, "sO: " + std::to_string(schassis.getPose().theta));*/
+		
 		
 		autoSet(-1);
 		autoPrint();

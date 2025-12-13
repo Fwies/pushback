@@ -50,8 +50,8 @@ lemlib::Drivetrain drivetrain(&leftDrive, // left motor group
 pros::Imu imu(16);
 // horizontal tracking wheel encoder
 //pros::Rotation horizontal_encoder(20);
-pros::Rotation vertical_encoder(19);
-pros::Rotation horizontal_encoder(18);
+pros::Rotation vertical_encoder(21);
+pros::Rotation horizontal_encoder(21);
 // horizontal tracking wheel
 
 // vertical tracking wheel
@@ -65,7 +65,7 @@ lemlib::OdomSensors sensors(&vertical_tracking_wheel, // vertical tracking wheel
                             nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
                             &imu // inertial sensor
 );
-lemlib::OdomSensors ssensors(&vertical_tracking_wheel, // vertical tracking wheel 1, set to null
+lemlib::OdomSensors ssensors(nullptr,//&vertical_tracking_wheel, // vertical tracking wheel 1, set to null
                             nullptr, // vertical tracking wheel 2, set to nullptr as we are using IMEs
                             nullptr,//&horizontal_tracking_wheel, // horizontal tracking wheel 1
                             nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
@@ -116,89 +116,54 @@ pros::Distance distance_sensor_left(22);
 
 
 
-
-
+// V array to store all the sensors V
 pros::Distance distanceSensors[] = {distance_sensor_front, distance_sensor_right, distance_sensor_back, distance_sensor_left};
-double distanceSensorsVerticalOffset[] = {0.2+1.44,5+1.44,0,0};
-double distanceSensorsHorizontalOffset[] = {-5.25,0,0,0};
-
-
-
-double theta = 0;
-
-
-/*void distanceSensorReset(){
-    front = distance_sensor_front.get()/25.4;// Distance sensors poll distance from walls 
-    side = distance_sensor_side.get()/25.4; //  and convert to inches
-    theta = schassis.getPose().theta; // get the heading for calculating to position
-
-    
-    while(abs(imu.get_pitch()) > 5){ // wait for imu pitch to be less than 5 degrees in either direction
-      pros::delay(10);
-    }
-    while(abs(front-(distance_sensor_front.get()/25.4))>1){ // wait for front sensor reading to be consistant
-      pros::delay(10);
-      front = distance_sensor_front.get()/25.4;
-    }
-    while(abs(side-(distance_sensor_side.get()/25.4))>1){ // wait for side sensor reading ot be consistent
-      pros::delay(10);
-      side = distance_sensor_side.get()/25.4;
-    }
-
-    front = 72 - (front)*cos((theta-270)*(3.14159/180));// calculate x position
-    side = 72 + (-side)*cos((theta-270)*(3.14159/180));//  calculate y position
-    schassis.setPose(front,side,schassis.getPose().theta,false);// update global position
-}*/
-double xReading= 0;
-double yReading =0;
-double feildSize = 141; //inches
+double distanceSensorsVerticalOffset[] = {0.75+1.436+2.3,4.163+1.44,0+1.44,0+1.44}; // stores how far the sensor its on its y axis
+double distanceSensorsHorizontalOffset[] = {-5.01,0.25,0,0}; // stores how far the sensor is on its x axis
+double theta = 0; // will store the theta for consistant calculations
+double xReading = 0; // variable to store the reading
+double yReading = 0; // variable to store the reading
+double fieldSize = 141; // stores the field size in inches
 void distanceSensorReset(DS xSensor, DS ySensor, double targetTheta){
-    //Check for good reading
+    // get Initial readings
     xReading = distanceSensors[xSensor].get();
     yReading = distanceSensors[ySensor].get();
+    
+    // repeatedly check the sensors until they seem to give a consistent reading
     while(abs(xReading - distanceSensors[xSensor].get())>12 && abs(xReading - distanceSensors[xSensor].get())>12){
         xReading = distanceSensors[xSensor].get();
         yReading = distanceSensors[ySensor].get();
         pros::delay(10);
     }
+    
     //take into account vertical offsets and convert to inches
-
     xReading = distanceSensorsVerticalOffset[xSensor] + distanceSensors[xSensor].get()/25.4;
     yReading = distanceSensorsVerticalOffset[ySensor] + distanceSensors[ySensor].get()/25.4;
 
-    pros::lcd::set_text(3, "rawX: " + std::to_string(xReading));
-		pros::lcd::set_text(4, "rawY: " + std::to_string(yReading));
     // Now take into account that the robot is not perfectly aligned with the walls.
-    theta = imu.get_heading();//schassis.getPose().theta;
+    theta = schassis.getPose().theta;
     xReading = (xReading)*cos((theta-targetTheta)*(M_PI/180)); // Have to convert degrees to radians for c++ cosign function
     yReading = (yReading)*cos((theta-targetTheta)*(M_PI/180));
-    pros::lcd::set_text(5, "tiltcX: " + std::to_string(xReading));
-		
-    //take into account the sensors are of set side to side
+
+    //take into account the sensors are offset on their x axis.
     xReading -= distanceSensorsHorizontalOffset[xSensor]*sin((theta-targetTheta)*(M_PI/180));
     yReading -= distanceSensorsHorizontalOffset[ySensor]*sin((theta-targetTheta)*(M_PI/180));
-    pros::lcd::set_text(6, "offsetcx: " + std::to_string(xReading));
     
-    if (false){//schassis.getPose().x<0){
-        //schassis.setPose(xReading-feildSize/2,0,schassis.getPose().theta,false);
-        pros::lcd::set_text(0, "sX: " + std::to_string(xReading-feildSize/2));
+    // use the measurements to calculate the position. Use the previous beleived position to figure out quandrant.
+    if (schassis.getPose().x<0){// Right side field
+        //schassis.setPose(xReading-fieldSize/2,schassis.getPose().y,schassis.getPose().theta,false);
+        schassis.setPose(xReading,schassis.getPose().y,schassis.getPose().theta,false);
     }
-    else {
-        //schassis.setPose(feildSize/2-xReading,0,schassis.getPose().theta,false);
-        pros::lcd::set_text(0, "sX: " + std::to_string(feildSize/2-xReading));
+    else { // Left side of field
+       // schassis.setPose(fieldSize/2-xReading,schassis.getPose().y,schassis.getPose().theta,false);
+        schassis.setPose(-xReading,schassis.getPose().y,schassis.getPose().theta,false);
     }
-    if (false){//schassis.getPose().y>0){
-        //schassis.setPose(schassis.getPose().x,feildSize/2-yReading,schassis.getPose().theta,false);
-        pros::lcd::set_text(1, "sy " + std::to_string(feildSize/2-yReading));
+    if (schassis.getPose().y>0){// Upper half of field
+        //schassis.setPose(schassis.getPose().x,fieldSize/2-yReading,schassis.getPose().theta,false);
+        schassis.setPose(schassis.getPose().x,-yReading,schassis.getPose().theta,false);
     }
-    else {
-        //schassis.setPose(schassis.getPose().x,yReading-feildSize/2,schassis.getPose().theta,false);
-        pros::lcd::set_text(1, "sy: " + std::to_string(yReading-feildSize/2));
+    else { // lower half of field
+        //schassis.setPose(schassis.getPose().x,yReading-fieldSize/2,schassis.getPose().theta,false);
+        schassis.setPose(schassis.getPose().x,yReading,schassis.getPose().theta,false);
     }
-    /*pros::lcd::set_text(0, "sX: " + std::to_string(schassis.getPose().x));
-		pros::lcd::set_text(1, "sY: " + std::to_string(schassis.getPose().y));*/
-		pros::lcd::set_text(2, "sO: " + std::to_string(theta));//schassis.getPose().theta));
-
-
-
 }

@@ -6,6 +6,7 @@ void intakeOutHigh(int ms = -1);
 
 void intakeStop();
 extern pros::adi::Pneumatics tongue;
+extern pros::adi::Pneumatics lift;
 extern pros::adi::Pneumatics wing;
 extern pros::Motor I3;
 extern pros::Motor I2;

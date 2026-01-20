@@ -9,9 +9,26 @@ pros::MotorGroup leftDrive({-11,-12,-13});    // Creates a motor group with forw
 pros::MotorGroup rightDrive({20,19,18});
 double input = 0;
 double mult = 0;
+double speed = 1;
+
+
+void speedChange()
+{
+    if(master.get_digital_new_press(DIGITAL_UP)&&speed!=1){
+        speed=speed+0.1;
+        if(speed>1){speed=1;}
+    } else if(master.get_digital_new_press(DIGITAL_DOWN)){
+        speed=speed-0.1;
+        if(speed<0){speed=0;}
+    }
+}
+
 void driveLoop(){
+
+speedChange();
+
    //tank drive code
-    input = master.get_analog(ANALOG_LEFT_Y)*mult;
+    input = master.get_analog(ANALOG_LEFT_Y)*speed;
 		if(input>0){
 			input=(input*0.46456692913)+68;
 			
@@ -23,7 +40,7 @@ void driveLoop(){
 		
 		//pros::lcd::set_text(0, std::to_string(input));
 		leftDrive.move_voltage(((input*input*input)*0.00585281132));
-		input = master.get_analog(ANALOG_RIGHT_Y)*mult;
+		input = master.get_analog(ANALOG_RIGHT_Y)*speed;
 		if(input>0){
 			input=(input*0.46456692913)+68;
 		}
@@ -47,16 +64,16 @@ lemlib::Drivetrain drivetrain(&leftDrive, // left motor group
 );
 
 // imu
-pros::Imu imu(16);
+pros::Imu imu(17);
 // horizontal tracking wheel encoder
 //pros::Rotation horizontal_encoder(20);
-pros::Rotation vertical_encoder(21);
-pros::Rotation horizontal_encoder(21);
+pros::Rotation vertical_encoder(4);
+pros::Rotation horizontal_encoder(15);
 // horizontal tracking wheel
 
 // vertical tracking wheel
-lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, 1.9921875, -0.875);
-lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, 0.96, -5.125);
+lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, 1.9921875, -0.5);
+lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_275, -5.0625);
 
 // odometry settings
 lemlib::OdomSensors sensors(&vertical_tracking_wheel, // vertical tracking wheel 1, set to null
@@ -73,27 +90,27 @@ lemlib::OdomSensors ssensors(nullptr,//&vertical_tracking_wheel, // vertical tra
 );
 
 // lateral PID controller
-lemlib::ControllerSettings lateral_controller(9, // proportional gain (kP)
+lemlib::ControllerSettings lateral_controller(11, // proportional gain (kP)9
                                               0, // integral gain (kI)
-                                              31, // derivative gain (kD)
+                                              54, // derivative gain (kD)38
                                               0, // anti windup
-                                              1, // small error range, in inches
-                                              80, // small error range timeout, in milliseconds
-                                              3, // large error range, in inches
-                                              5000, // large error range timeout, in milliseconds
-                                              0 // maximum acceleration (slew)
+                                               1 , //1 small error range, in inches
+                                              100, //100 small error range timeout, in milliseconds
+                                              3, //3 large error range, in inches
+                                              500, //500 large error range timeout, in milliseconds
+                                              0 //20 maximum acceleration (slew)
 );
 
 // angular PID controller
-lemlib::ControllerSettings angular_controller(7, // proportional gain (kP)
+lemlib::ControllerSettings angular_controller(6, // proportional gain (kP)6
                                               0, // integral gain (kI)
-                                              74, // derivative gain (kD)
+                                              47, // derivative gain (kD)48
                                               0, // anti windup
-                                              2, // small error range, in degrees
-                                              0, // small error range timeout, in milliseconds
-                                              3, // large error range, in degrees
-                                              100, // large error range timeout, in milliseconds
-                                              20 // maximum acceleration (slew)
+                                              2,//1, // small error range, in degrees
+                                              50, //50 small error range timeout, in milliseconds
+                                              3,//3, // large error range, in degrees
+                                              500,//500, // large error range timeout, in milliseconds
+                                              0//0 // maximum acceleration (slew)
 );
 
 // create the chassis

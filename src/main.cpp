@@ -4,6 +4,8 @@ pros::Controller master(pros::E_CONTROLLER_MASTER);
 pros::Controller partner(pros::E_CONTROLLER_PARTNER);
 
 void initialize() {
+	optical.set_integration_time(3);
+	I3.set_brake_mode(MOTOR_BRAKE_HOLD);
 	pros::lcd::initialize();
 	//schassis.calibrate();
 	//imu.reset();
@@ -37,7 +39,7 @@ void competition_initialize() {
 	autoSet(-1);
 	autoPrint();
 	if(auton == 3){
-		schassis.calibrate(true);
+		chassis.calibrate(true);
 	}
 	else{
 		chassis.calibrate(true);
@@ -62,8 +64,17 @@ void competition_initialize() {
  * from where it left off.
  */
 void autonomous() {
+	/*chassis.moveToPoint(0,24,2000,{},false);
+	pros::lcd::set_text(0, "y: " + std::to_string(schassis.getPose().y));
+	master.set_text(0, 0, std::to_string(schassis.getPose().y));
+	pros::lcd::set_text(1, "x: " + std::to_string(schassis.getPose().x));
+	chassis.moveToPoint(0,0,2000,{.forwards=false},false);*/
+	/*chassis.turnToHeading(90,1000,{},false);*/
 	
-	autoSet(-1);
+	//master.set_text(0, 0, std::to_string(schassis.getPose().theta));
+	//chassis.turnToHeading(0,1500,{},false);
+	//pros::delay(99999);
+	autoSet(5);
 	autoPrint();
 	autoRun();
 }
@@ -84,20 +95,25 @@ void autonomous() {
 
 
 void opcontrol() {
-	schassis.calibrate();
-	schassis.setPose(-50,50,schassis.getPose().theta+180,false);
 	
 	
 	
-	  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
-
-	/*schassis.calibrate();
-	schassis.setPose(0,0,270,false);
-	pros::delay(500);
-
-	distanceSensorReset();*/
+	
+	  
+	chassis.setBrakeMode(MOTOR_BRAKE_COAST);
+	//chassis.calibrate(true);
+	
+	/*distanceSensorReset();*/
 	while (true) {
-		if (master.get_digital_new_press(DIGITAL_LEFT)){
+		// pros::lcd::set_text(0, "y: " + std::to_string(schassis.getPose().y));
+		// pros::lcd::set_text(1, "x: " + std::to_string(schassis.getPose().x));
+		// pros::lcd::set_text(2, "theta: " + std::to_string(schassis.getPose().theta));
+
+
+
+		//pros::lcd::set_text(0, "sX: " + std::to_string(chassis.getPose().x));
+		//	pros::lcd::set_text(1, "sY: " + std::to_string(chassis.getPose().y));
+		/*if (master.get_digital_new_press(DIGITAL_LEFT)){
 			distanceSensorReset(DS::FRONT,DS::RIGHT, 270);
 			pros::lcd::set_text(0, "sX: " + std::to_string(schassis.getPose().x));
 			pros::lcd::set_text(1, "sY: " + std::to_string(schassis.getPose().y));
@@ -105,8 +121,7 @@ void opcontrol() {
 			schassis.moveToPoint(24,-24,3000,{.maxSpeed=45},false);
 			schassis.turnToPoint(24,-44,3000,{.forwards=false,.maxSpeed=45},false);
 			schassis.moveToPoint(24,-44,3000,{.forwards=false,.maxSpeed=45},false);
-			
-		}
+		}*/
 		if(partner.get_digital(DIGITAL_R1)){
 			master.rumble(".");
 		}

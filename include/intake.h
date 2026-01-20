@@ -1,9 +1,17 @@
 void intakeLoop();
 void intakeIn();
 void intakeOutLow(bool slowin);
-void intakeOutMid(bool slowin);
+void intakeOutMid(bool slowin, int ms = -1);
 void intakeOutHigh(int ms = -1);
-
+enum COLORVALUE{
+  REDUPPER = 30,
+  REDLOWER = 0,
+  BLUEUPPER = 300,
+  BLUELOWER = 180,
+  NOSORTUPPER = -1,
+  NOSORTLOWER = 361,
+};
+extern pros::Optical optical;
 void intakeStop();
 extern pros::adi::Pneumatics tongue;
 extern pros::adi::Pneumatics lift;

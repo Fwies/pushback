@@ -7,6 +7,13 @@ pros::Motor R2 ((int)19, pros::v5::MotorGears::blue, pros::MotorUnits::rotations
 pros::Motor R3 ((int)18, pros::v5::MotorGears::blue, pros::MotorUnits::rotations);
 pros::MotorGroup leftDrive({-11,-12,-13});    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
 pros::MotorGroup rightDrive({20,19,18});
+
+
+
+// pros::MotorGroup leftDrive({-7,6,13});    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
+// pros::MotorGroup rightDrive({20,-10,-1});
+
+
 double input = 0;
 double mult = 0;
 double speed = 1;
@@ -25,10 +32,10 @@ void speedChange()
 
 void driveLoop(){
 
-speedChange();
+//speedChange();
 
    //tank drive code
-    input = master.get_analog(ANALOG_LEFT_Y)*speed;
+    input = master.get_analog(ANALOG_LEFT_Y)*1;
 		if(input>0){
 			input=(input*0.46456692913)+68;
 			
@@ -40,7 +47,7 @@ speedChange();
 		
 		//pros::lcd::set_text(0, std::to_string(input));
 		leftDrive.move_voltage(((input*input*input)*0.00585281132));
-		input = master.get_analog(ANALOG_RIGHT_Y)*speed;
+		input = master.get_analog(ANALOG_RIGHT_Y)*1;
 		if(input>0){
 			input=(input*0.46456692913)+68;
 		}
@@ -125,18 +132,18 @@ lemlib::Chassis schassis(drivetrain, // drivetrain settings
                         ssensors // odometry sensors
 );
 
-pros::Distance distance_sensor_front(1);
-pros::Distance distance_sensor_right(21);
+pros::Distance distance_sensor_front(7);
+pros::Distance distance_sensor_right(22);
 pros::Distance distance_sensor_back(22);
-pros::Distance distance_sensor_left(22);
+pros::Distance distance_sensor_left(3);
 
 
 
 
 // V array to store all the sensors V
 pros::Distance distanceSensors[] = {distance_sensor_front, distance_sensor_right, distance_sensor_back, distance_sensor_left};
-double distanceSensorsVerticalOffset[] = {0.75+1.436+2.3,4.163+1.44,0+1.44,0+1.44}; // stores how far the sensor its on its y axis
-double distanceSensorsHorizontalOffset[] = {-5.01,0.25,0,0}; // stores how far the sensor is on its x axis
+double distanceSensorsVerticalOffset[] = {5.875+1.436,     4.163+1.44,              0+1.44,               4.163+1.44}; // stores how far the sensor its on its y axis
+double distanceSensorsHorizontalOffset[] = {3.5,0.25,0,-0.25}; // stores how far the sensor is on its x axis
 double theta = 0; // will store the theta for consistant calculations
 double xReading = 0; // variable to store the reading
 double yReading = 0; // variable to store the reading
@@ -167,7 +174,7 @@ void distanceSensorReset(DS xSensor, DS ySensor, double targetTheta){
     yReading -= distanceSensorsHorizontalOffset[ySensor]*sin((theta-targetTheta)*(M_PI/180));
     
     // use the measurements to calculate the position. Use the previous beleived position to figure out quandrant.
-    if (schassis.getPose().x<0){// Right side field
+    /*if (schassis.getPose().x<0){// Right side field
         //schassis.setPose(xReading-fieldSize/2,schassis.getPose().y,schassis.getPose().theta,false);
         schassis.setPose(xReading,schassis.getPose().y,schassis.getPose().theta,false);
     }
@@ -182,5 +189,10 @@ void distanceSensorReset(DS xSensor, DS ySensor, double targetTheta){
     else { // lower half of field
         //schassis.setPose(schassis.getPose().x,yReading-fieldSize/2,schassis.getPose().theta,false);
         schassis.setPose(schassis.getPose().x,yReading,schassis.getPose().theta,false);
-    }
+    }*/
+    schassis.setPose(-xReading,schassis.getPose().y,schassis.getPose().theta,false);
+    schassis.setPose(schassis.getPose().x,-yReading,schassis.getPose().theta,false);
+    
+
+	
 }

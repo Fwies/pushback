@@ -6,11 +6,11 @@ bool slow = false;
 pros::Distance topBall(6);
 COLORVALUE OppUpper = COLORVALUE::BLUEUPPER;
 COLORVALUE OppLower = COLORVALUE::BLUELOWER;
-pros::adi::Pneumatics hood('f', false);
+pros::adi::Pneumatics hood('z', false);
 pros::adi::Pneumatics tongue('b', false);
-pros::adi::Pneumatics lift('c', false);
+pros::adi::Pneumatics lift('h', false);
 pros::adi::Pneumatics wing('g', false);
-pros::adi::Pneumatics middleGoal('a', false);
+pros::adi::Pneumatics middleGoal('f', false);
 
 pros::Optical optical(7);
 pros::Motor I1 ((int)9, pros::v5::MotorGears::blue, pros::MotorUnits::rotations);
@@ -21,7 +21,7 @@ int intakeRev = 0;
 int topBallBuffer = 70;
 void intakeIn(){
     middleGoal.retract();
-    hood.retract();
+    wing.extend();
     lift.retract();
 
 
@@ -59,7 +59,7 @@ void intakeOutLow(bool slowin){
     else{
         
         I1.move_velocity(-100);
-        I2.move_velocity(-150);
+        I2.move_velocity(-75);
         //if(intakeRev>=20){
             I3.move_velocity(-50);
         //}
@@ -83,7 +83,7 @@ void intakeOutMid(bool slowin, int ms){
             I2.move_velocity(600);
             
             if(optical.get_hue()>OppLower && optical.get_hue()<OppUpper){
-                hood.extend();
+                wing.retract();
                 I3.move_velocity(600);
                 colorSortCountdown=30;
             }
@@ -93,11 +93,11 @@ void intakeOutMid(bool slowin, int ms){
             }
         }
         else{
-            I1.move_velocity(150);
-            I2.move_velocity(300);//middle goal slowmode
+            I1.move_velocity(200);
+            I2.move_velocity(200);//middle goal slowmode
 
             if(optical.get_hue()>OppLower && optical.get_hue()<OppUpper){
-                hood.extend();
+                wing.retract();
                 I3.move_velocity(600);
                 colorSortCountdown=30;
             }
@@ -121,7 +121,7 @@ void intakeOutHigh(int ms){
         colorSortCountdown--; // decrement the counter
     }
     else if(ms<0){ // check that this is a iteration call and not to start a timed loop
-        hood.extend();// open the hood
+        wing.retract();// open the hood
         if (intakeRev<30){
             
             I1.move_velocity(-200);// move first stages of intake

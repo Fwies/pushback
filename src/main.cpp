@@ -74,7 +74,7 @@ void autonomous() {
 	//master.set_text(0, 0, std::to_string(schassis.getPose().theta));
 	//chassis.turnToHeading(0,1500,{},false);
 	//pros::delay(99999);
-	autoSet(5);
+	autoSet(-1);
 	autoPrint();
 	autoRun();
 }

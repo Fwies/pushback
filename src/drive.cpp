@@ -23,19 +23,27 @@ void speedChange()
 {
     if(master.get_digital_new_press(DIGITAL_UP)&&speed!=1){
         speed=speed+0.1;
-        if(speed>1){speed=1;}
+        master.rumble(".");
+        if(speed>1){
+            speed=1;
+            master.rumble("-");
+        }
     } else if(master.get_digital_new_press(DIGITAL_DOWN)){
         speed=speed-0.1;
-        if(speed<0){speed=0;}
+        master.rumble(".");
+        if(speed<0){
+            speed=0;
+            master.rumble("-");
+        }
     }
 }
 
 void driveLoop(){
 
-//speedChange();
+speedChange();
 
    //tank drive code
-    input = master.get_analog(ANALOG_LEFT_Y)*1;
+    input = master.get_analog(ANALOG_LEFT_Y)*speed;
 		if(input>0){
 			input=(input*0.46456692913)+68;
 			
@@ -47,7 +55,7 @@ void driveLoop(){
 		
 		//pros::lcd::set_text(0, std::to_string(input));
 		leftDrive.move_voltage(((input*input*input)*0.00585281132));
-		input = master.get_analog(ANALOG_RIGHT_Y)*1;
+		input = master.get_analog(ANALOG_RIGHT_Y)*speed;
 		if(input>0){
 			input=(input*0.46456692913)+68;
 		}

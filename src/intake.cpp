@@ -20,7 +20,7 @@ int colorSortCountdown = 0;
 int intakeRev = 0;
 int topBallBuffer = 70;
 void intakeIn(){
-    middleGoal.retract();
+    middleGoal.extend();
     wing.extend();
     lift.retract();
 
@@ -73,7 +73,7 @@ void intakeOutLow(bool slowin){
 
 void intakeOutMid(bool slowin, int ms){
     lift.retract();
-    middleGoal.extend();
+    middleGoal.retract();
     if(colorSortCountdown > 0){
         colorSortCountdown--;
     }
@@ -116,7 +116,7 @@ void intakeOutMid(bool slowin, int ms){
 }
 void intakeOutHigh(int ms){
     lift.retract();
-    middleGoal.retract();
+    middleGoal.extend();
     if(colorSortCountdown > 0){ // check if waiting for outake
         colorSortCountdown--; // decrement the counter
     }

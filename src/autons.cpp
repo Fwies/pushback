@@ -4,7 +4,7 @@ pros::adi::AnalogIn pot('a');
 int auton = 0;
 std::string autoNames[9] = {"no auto","left split","right split","skills","solo awp", "no wing left 7 ball", "no wing right 7 ball", "wing left 7 ball", "wing right 7 ball"};
 void autoPrint(){
-    pros::lcd::set_text(6, ": " + autoNames[auton]);
+    pros::lcd::set_text(7, "auto: " + autoNames[auton]);
     master.set_text(0, 0, autoNames[auton]);
     
 }
@@ -179,7 +179,8 @@ void autoSkills(){
     chassis.moveToPoint(-43,-15,1500,{.maxSpeed=40},false);// move into loader
     leftDrive.move_voltage(1000);
     rightDrive.move_voltage(1000);
-    pros::delay(1500);
+    
+    pros::delay(1300);
     chassis.moveToPoint(-52,12,2000,{.forwards=false,.minSpeed=30,.earlyExitRange=4},false);// move away
     tongue.retract();
     chassis.moveToPoint(-52,78,4000,{.forwards=false},true); // move to other end
@@ -200,7 +201,7 @@ void autoSkills(){
     chassis.moveToPoint(-40.5, 110, 1500,{.maxSpeed=40},false);
     leftDrive.move_voltage(1000);
     rightDrive.move_voltage(1000);
-    pros::delay(1500);
+    pros::delay(1300);
     chassis.moveToPoint(-40.5,68,300,{.forwards=false},false);// move to goal
     chassis.moveToPoint(-40.5,68,1200,{.forwards=false,.maxSpeed=40},false);
     intakeOutHigh();
@@ -209,11 +210,18 @@ void autoSkills(){
     tongue.retract();
     chassis.moveToPoint(-40.5,84,1000,{},false); // move away from goal
     intakeStop();
-    chassis.moveToPoint(-18,108,2000,{},false);// move to next to zone
-    chassis.turnToPoint(32,109,2000,{},false);// turn to face accross from goal
+    chassis.moveToPoint(-16,108,2000,{},false);// move to next to zone
+    chassis.turnToPoint(32,111,2000,{},false);// turn to face accross from goal
     intakeIn();
-     chassis.moveToPoint(32,109,2000,{.maxSpeed=70},false);// slow move accross first
-     chassis.moveToPoint(32,109,4000,{.maxSpeed=100},false);//move accross goal
+     chassis.moveToPoint(7,111,3500,{.maxSpeed=100},false);// slow move accross first
+     pros::delay(200);
+    //chassis.waitUntil(18);
+    //tongue.extend();
+    //chassis.cancelMotion();
+     chassis.moveToPoint(32,111,4000,{.maxSpeed=100},true);//move accross goal
+     chassis.waitUntil(14);
+     //tongue.retract();
+     chassis.waitUntilDone();
      chassis.turnToHeading(90,1000,{},false);// turn to prepare for reset
      distanceSensorReset(DS::FRONT,DS::LEFT,90);// reset
 
@@ -225,12 +233,12 @@ void autoSkills(){
     intakeStop();
     chassis.moveToPoint(-47,-49,1000,{},false);// move to align with goal
     
-    chassis.turnToPoint(-59,-60,1000,{.forwards=false},false);// turn to face goal
+    chassis.turnToPoint(-60,-61,1000,{.forwards=false},false);// turn to face goal
     intakeOutMid(true);
     intakeStop();
-    chassis.moveToPoint(-59,-60,3000,{.forwards=false,.maxSpeed=50},false);// mvoe to goal
+    chassis.moveToPoint(-60,-61,3000,{.forwards=false,.maxSpeed=50},false);// mvoe to goal
     intakeOutMid(true);
-    pros::delay(2500);
+    pros::delay(4000);
     chassis.moveToPoint(-22,-24,2000,{},true);// move to infront of laoder
     chassis.waitUntil(35);
     chassis.cancelMotion();
@@ -241,13 +249,54 @@ void autoSkills(){
     chassis.moveToPoint(-22,-3,1500,{.maxSpeed=40},false);// move to loader
     leftDrive.move_voltage(1000);
     rightDrive.move_voltage(1000);
-    pros::delay(1500);
+    pros::delay(1300);
     chassis.moveToPoint(-10,-44,2000,{.forwards=false,.minSpeed=60,.earlyExitRange=4},false);// move away 
     tongue.retract();
     chassis.moveToPoint(-10,-105,2000,{.forwards=false},true);// move to other side
     chassis.waitUntil(70);
     chassis.cancelMotion();
     chassis.moveToPoint(-10,-105,2000,{.forwards=false,.maxSpeed=40},false);
+
+    chassis.turnToHeading(180,1200,{},false);
+    distanceSensorReset(DS::LEFT,DS::FRONT,180);
+    chassis.setPose(chassis.getPose().x,-chassis.getPose().y,chassis.getPose().theta,false);
+
+    chassis.turnToPoint(-24,36,2000,{.forwards=false},false);// turn to in front of goal
+    chassis.moveToPoint(-24,36,2000,{.forwards=false},false);// move to in front of goal
+
+    chassis.turnToPoint(-24,48,2000,{.forwards=false},false);// turn to goal
+    chassis.moveToPoint(-24,48,600,{.forwards=false,.maxSpeed=40},false);// go to goal
+    intakeOutHigh();
+    tongue.extend();
+    chassis.turnToPoint(-24,5,1000,{},false);// turn to loader
+    pros::delay(2000);
+
+    chassis.moveToPoint(-24,5,500,{},false);
+    intakeIn();
+    chassis.moveToPoint(-24,5,1200,{.maxSpeed=40},false);// move to loader
+    leftDrive.move_voltage(1000);
+    rightDrive.move_voltage(1000);
+    pros::delay(1300);
+    chassis.moveToPoint(-24,48,300,{.forwards=false},false);// move to goal
+    chassis.moveToPoint(-24,48,2000,{.forwards=false,.maxSpeed=40},false);
+    intakeOutHigh();
+    pros::delay(2000);
+    tongue.retract();
+    intakeIn();
+    //chassis.moveToPoint(-30,20,1000,{.minSpeed=30,.earlyExitRange=6},false);
+    chassis.moveToPoint(-24,38,1000,{},false);
+    chassis.moveToPoint(-46,6,3000,{},false);// move to infront of zone
+   chassis.turnToPoint(-72,6,3000,{},false);// turn to face zone
+   chassis.moveToPoint(-72,6,5000,{},true);// move to zone
+   pros::delay(1500);
+   while(distance_sensor_front.get_distance()/25.4 > 65){
+    
+    pros::delay(10);
+   }
+   master.rumble("-");
+   chassis.cancelMotion();
+   chassis.setBrakeMode(MOTOR_BRAKE_HOLD);
+    /*
     chassis.turnToPoint(-22,-114,2000,{.forwards=false},false);// turn to in front of goal
     chassis.moveToPoint(-22,-114,2000,{.forwards=false},false);// move to in front of goal
 
@@ -277,8 +326,9 @@ void autoSkills(){
     
     pros::delay(10);
    }
+   master.rumble("-");
    chassis.cancelMotion();
-   chassis.setBrakeMode(MOTOR_BRAKE_HOLD);
+   chassis.setBrakeMode(MOTOR_BRAKE_HOLD);*/
    
     
     
@@ -377,7 +427,7 @@ void autoAWP(){
     intakeOutMid(true);
     chassis.turnToHeading(225,500,{},false);
     
-    pros::delay(700);
+    pros::delay(400);
     intakeIn();
     chassis.moveToPoint(-56.5,5,3000,{},true);//-53
     chassis.waitUntil(36);
@@ -444,24 +494,27 @@ void autoRightElims()
 intakeIn();
 chassis.moveToPoint(14,20,2000,{.minSpeed=40,.earlyExitRange=10},false);
 tongue.extend();
-pros::delay(50);
+pros::delay(60);
 chassis.turnToPoint(40,0,300,{},false);
-chassis.moveToPoint(40,0,1500,{.minSpeed=30,.earlyExitRange=16},false);
-chassis.turnToPoint(40,-17,300,{},false);
+chassis.moveToPoint(40,0,1900,{.minSpeed=30,.earlyExitRange=14},false);
+chassis.turnToPoint(40,-24,300,{},false);
 //chassis.moveToPoint(40,0,2000,{.minSpeed=40,.earlyExitRange=19},false);
 // chassis.moveToPoint(41,0,1700,{},true);
 // chassis.waitUntil(33);
 // chassis.cancelMotion();
 // chassis.moveToPoint(41,0,1700,{.maxSpeed=50,.minSpeed=30,.earlyExitRange=9},false);
 //chassis.turnToPoint(42,-17,1000,{},false);
-chassis.moveToPoint(40,-17,1300,{.maxSpeed=40,.minSpeed=20},false);
-chassis.moveToPoint(39,20,1200,{.forwards=false},false);
+chassis.moveToPoint(40,-24,1500,{},true);
+chassis.waitUntil(6);
+chassis.cancelMotion();
+chassis.moveToPoint(40,-24,1000,{.maxSpeed=60,.minSpeed=60},false);
+chassis.moveToPoint(40,20,1200,{.forwards=false},false);
 intakeOutHigh();
 pros::delay(1200);
 if(wingDescore){
 tongue.retract();
 //wing.extend();
-chassis.moveToPoint(29,13,1000,{},false);
+chassis.moveToPoint(29,13,1500,{},false);
 wing.retract();
 chassis.turnToPoint(26.5,35,1000,{.forwards=false},false);
 chassis.moveToPoint(29,35,2000,{.forwards=false,.maxSpeed=50},false);

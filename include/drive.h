@@ -3,6 +3,7 @@
 extern lemlib::Chassis chassis;
 extern lemlib::Chassis schassis;
 void driveLoop();
+void printTemps();
 extern pros::Imu imu;
 extern pros::Distance distance_sensor_front;
 extern double mult;

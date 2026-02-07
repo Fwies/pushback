@@ -59,10 +59,17 @@ void intakeOutLow(bool slowin){
     else{
         
         I1.move_velocity(-100);
-        I2.move_velocity(-75);
-        //if(intakeRev>=20){
-            I3.move_velocity(-50);
-        //}
+        if(intakeRev<20){
+            I2.move_velocity(-75);
+        }
+        else if(intakeRev<40){
+            I2.move_velocity(-600);
+        }
+        else{
+            intakeRev=0;
+        }
+        
+        intakeRev++;
         //else{
         //    I3.move_velocity(600);
         //}

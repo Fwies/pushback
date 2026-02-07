@@ -8,6 +8,14 @@ pros::Motor R3 ((int)18, pros::v5::MotorGears::blue, pros::MotorUnits::rotations
 pros::MotorGroup leftDrive({-11,-12,-13});    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
 pros::MotorGroup rightDrive({20,19,18});
 
+void printTemps(){
+    pros::lcd::set_text(0, "L1: " + std::to_string(L1.get_temperature()));
+		pros::lcd::set_text(1, "L2: " + std::to_string(L2.get_temperature()));
+		pros::lcd::set_text(2, "L3: " + std::to_string(L3.get_temperature()));
+		pros::lcd::set_text(3, "R1: " + std::to_string(R1.get_temperature()));
+		pros::lcd::set_text(4, "R2: " + std::to_string(R2.get_temperature()));
+		pros::lcd::set_text(5, "R3: " + std::to_string(R3.get_temperature()));
+}
 
 
 // pros::MotorGroup leftDrive({-7,6,13});    // Creates a motor group with forwards ports 1 & 3 and reversed port 2

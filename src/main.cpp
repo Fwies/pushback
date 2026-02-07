@@ -105,6 +105,7 @@ void opcontrol() {
 	
 	/*distanceSensorReset();*/
 	while (true) {
+		//printTemps();
 		// pros::lcd::set_text(0, "y: " + std::to_string(schassis.getPose().y));
 		// pros::lcd::set_text(1, "x: " + std::to_string(schassis.getPose().x));
 		// pros::lcd::set_text(2, "theta: " + std::to_string(schassis.getPose().theta));

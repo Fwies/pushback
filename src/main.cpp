@@ -69,12 +69,17 @@ void autonomous() {
 	master.set_text(0, 0, std::to_string(schassis.getPose().y));
 	pros::lcd::set_text(1, "x: " + std::to_string(schassis.getPose().x));
 	chassis.moveToPoint(0,0,2000,{.forwards=false},false);*/
-	/*chassis.turnToHeading(90,1000,{},false);*/
+	/*chassis.turnToHeading(90,1000,{},false);
 	
-	//master.set_text(0, 0, std::to_string(schassis.getPose().theta));
-	//chassis.turnToHeading(0,1500,{},false);
-	//pros::delay(99999);
-	autoSet(-1);
+	master.set_text(0, 0, std::to_string(schassis.getPose().theta));
+	
+	chassis.turnToHeading(0,1500,{},false);*/
+	
+	//chassis.moveToPose(20,35,90,2000,{.horizontalDrift = 15, .lead = 0.25},false);
+	intakeIn();
+	chassis.moveToPoint(0,40,2000,{.maxSpeed=60,.minSpeed=60},false);
+	pros::delay(99999);
+	autoSet(3);
 	autoPrint();
 	autoRun();
 }
@@ -95,7 +100,7 @@ void autonomous() {
 
 
 void opcontrol() {
-	
+
 	
 	
 	

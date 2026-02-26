@@ -28,18 +28,9 @@ void intakeIn(){
     
     I1.move_velocity(600);
     I2.move_velocity(600);
-    /*if(topBall.get_distance()<50){
-        topBallBuffer-=1;
-        if (topBallBuffer < 1){
-            I3.move_velocity(0);
-        }
-    }
-    else{*/
-    I3.move_velocity(600);
-    topBallBuffer = 70;
-    //}
-    colorSortCountdown = 0;
-    intakeRev = 30;
+    
+    
+    intakeRev = 0;
 }
 
 void intakeOutLow(bool slowin){
@@ -60,10 +51,12 @@ void intakeOutLow(bool slowin){
         
         I1.move_velocity(-100);
         if(intakeRev<20){
-            I2.move_velocity(-75);
+            
+            I2.move_velocity(-600);
         }
         else if(intakeRev<40){
-            I2.move_velocity(-600);
+            
+            I2.move_velocity(100);
         }
         else{
             intakeRev=0;
@@ -81,37 +74,23 @@ void intakeOutLow(bool slowin){
 void intakeOutMid(bool slowin, int ms){
     lift.retract();
     middleGoal.retract();
-    if(colorSortCountdown > 0){
-        colorSortCountdown--;
-    }
-    else if(ms<0){
+    
+    if(ms<0){
         if(!slowin){
-            I1.move_velocity(600);
-            I2.move_velocity(600);
             
-            if(optical.get_hue()>OppLower && optical.get_hue()<OppUpper){
-                wing.retract();
-                I3.move_velocity(600);
-                colorSortCountdown=30;
-            }
-            else{
-                I3.move_velocity(-600);
-                
-            }
+                I1.move_velocity(600);
+                I2.move_velocity(600);
+           
+            
+            
         }
         else{
             I1.move_velocity(200);
-            I2.move_velocity(200);//middle goal slowmode
+            I2.move_velocity(200);
 
-            if(optical.get_hue()>OppLower && optical.get_hue()<OppUpper){
-                wing.retract();
-                I3.move_velocity(600);
-                colorSortCountdown=30;
-            }
-            else{
-                I3.move_velocity(-100);
-            }
+            
         }
+        intakeRev++;
     }
     else{
         for(int i = 0; i<ms/10; i++){
@@ -124,33 +103,38 @@ void intakeOutMid(bool slowin, int ms){
 void intakeOutHigh(int ms){
     lift.retract();
     middleGoal.extend();
-    if(colorSortCountdown > 0){ // check if waiting for outake
-        colorSortCountdown--; // decrement the counter
-    }
-    else if(ms<0){ // check that this is a iteration call and not to start a timed loop
+    if(ms<0){ // check that this is a iteration call and not to start a timed loop
         wing.retract();// open the hood
-        if (intakeRev<30){
+        if (intakeRev<10){
             
             I1.move_velocity(-200);// move first stages of intake
-            I2.move_velocity(-200);
+            I2.move_velocity(00);
             intakeRev++;
         }
         else{
             I1.move_velocity(600);// move first stages of intake
-            I2.move_velocity(600);
+            if(I2.get_actual_velocity()<10&&I2.get_actual_velocity()>-5){
+                intakeRev++;
+            }
+            else{
+                intakeRev=10;
+            }
+            if(intakeRev >= 20){
+                I2.move_velocity(-600);
+            }
+            else{
+                I2.move_velocity(600);
+            }
+            
+            
+            
+            
         }
            
         
-        if(optical.get_hue()>OppLower && optical.get_hue()<OppUpper){// check if optical detects opponent color
-            I3.move_velocity(-600);
-             // move 3rd stage to outake through the middle
-            colorSortCountdown = 75; // set countdown to tell the nex iteration we are now waiting for the ball to be outaked
-        }
-        else{
+        
             
-            I3.move_velocity(600);
-            // no bad color detected. Allow ball to be sent to the high goal.
-        }
+        
     }
     else{
         for(int i = 0; i<ms/10; i++){
@@ -165,7 +149,7 @@ void intakeStop(){
         I2.move_velocity(0);
         I3.move_velocity(0);
         colorSortCountdown = 0;
-        intakeRev = 30;
+        intakeRev = 0;
 }
 void intakeLoop(){
     if(master.get_digital(DIGITAL_RIGHT)){

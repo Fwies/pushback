@@ -48,7 +48,7 @@ void speedChange()
 
 void driveLoop(){
 
-speedChange();
+//speedChange();
 
    //tank drive code
     input = master.get_analog(ANALOG_LEFT_Y)*speed;
@@ -113,9 +113,9 @@ lemlib::OdomSensors ssensors(nullptr,//&vertical_tracking_wheel, // vertical tra
 );
 
 // lateral PID controller
-lemlib::ControllerSettings lateral_controller(11, // proportional gain (kP)9
+lemlib::ControllerSettings lateral_controller(10, // proportional gain (kP)10
                                               0, // integral gain (kI)
-                                              54, // derivative gain (kD)38
+                                              54.5, // derivative gain (kD)54.5
                                               0, // anti windup
                                                1 , //1 small error range, in inches
                                               100, //100 small error range timeout, in milliseconds
@@ -127,9 +127,9 @@ lemlib::ControllerSettings lateral_controller(11, // proportional gain (kP)9
 // angular PID controller
 lemlib::ControllerSettings angular_controller(6, // proportional gain (kP)6
                                               0, // integral gain (kI)
-                                              47, // derivative gain (kD)48
+                                              47, // derivative gain (kD)47
                                               0, // anti windup
-                                              2,//1, // small error range, in degrees
+                                              2,//2, // small error range, in degrees
                                               50, //50 small error range timeout, in milliseconds
                                               3,//3, // large error range, in degrees
                                               500,//500, // large error range timeout, in milliseconds

@@ -17,4 +17,4 @@ enum DS{
   LEFT = 3
 };
   
-void distanceSensorReset(DS xSensor, DS ySensor, double targetTheta);
+void distanceSensorReset(DS xSensor, DS ySensor, double targetTheta, double xSign, double ySign);

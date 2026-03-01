@@ -14,7 +14,7 @@ pros::adi::Pneumatics middleGoal('f', false);
 
 pros::Optical optical(7);
 pros::Motor I1 ((int)9, pros::v5::MotorGears::blue, pros::MotorUnits::rotations);
-pros::Motor I2 ((int)-2, pros::v5::MotorGears::blue, pros::MotorUnits::rotations);
+pros::Motor I2 ((int)-8, pros::v5::MotorGears::blue, pros::MotorUnits::rotations);
 pros::Motor I3 ((int)-3, pros::v5::MotorGears::blue, pros::MotorUnits::rotations);
 int colorSortCountdown = 0;
 int intakeRev = 0;
@@ -113,7 +113,7 @@ void intakeOutHigh(int ms){
         }
         else{
             I1.move_velocity(600);// move first stages of intake
-            if(I2.get_actual_velocity()<10&&I2.get_actual_velocity()>-5){
+            if(I2.get_actual_velocity()<5&&I2.get_actual_velocity()>-5){//1  10
                 intakeRev++;
             }
             else{

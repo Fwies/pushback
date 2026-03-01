@@ -76,10 +76,8 @@ void autonomous() {
 	chassis.turnToHeading(0,1500,{},false);*/
 	
 	//chassis.moveToPose(20,35,90,2000,{.horizontalDrift = 15, .lead = 0.25},false);
-	intakeIn();
-	chassis.moveToPoint(0,40,2000,{.maxSpeed=60,.minSpeed=60},false);
-	pros::delay(99999);
-	autoSet(3);
+	
+	autoSet(-1);
 	autoPrint();
 	autoRun();
 }

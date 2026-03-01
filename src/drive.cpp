@@ -159,12 +159,12 @@ pros::Distance distance_sensor_left(3);
 // V array to store all the sensors V
 pros::Distance distanceSensors[] = {distance_sensor_front, distance_sensor_right, distance_sensor_back, distance_sensor_left};
 double distanceSensorsVerticalOffset[] = {5.875+1.436,     4.163+1.44,              0+1.44,               4.163+1.44}; // stores how far the sensor its on its y axis
-double distanceSensorsHorizontalOffset[] = {3.5,0.25,0,-0.25}; // stores how far the sensor is on its x axis
+double distanceSensorsHorizontalOffset[] = {3.5,0.25,0,-2}; // stores how far the sensor is on its x axis
 double theta = 0; // will store the theta for consistant calculations
 double xReading = 0; // variable to store the reading
 double yReading = 0; // variable to store the reading
 double fieldSize = 141; // stores the field size in inches
-void distanceSensorReset(DS xSensor, DS ySensor, double targetTheta){
+void distanceSensorReset(DS xSensor, DS ySensor, double targetTheta, double xSign, double ySign){
     // get Initial readings
     xReading = distanceSensors[xSensor].get();
     yReading = distanceSensors[ySensor].get();
@@ -206,8 +206,8 @@ void distanceSensorReset(DS xSensor, DS ySensor, double targetTheta){
         //schassis.setPose(schassis.getPose().x,yReading-fieldSize/2,schassis.getPose().theta,false);
         schassis.setPose(schassis.getPose().x,yReading,schassis.getPose().theta,false);
     }*/
-    schassis.setPose(-xReading,schassis.getPose().y,schassis.getPose().theta,false);
-    schassis.setPose(schassis.getPose().x,-yReading,schassis.getPose().theta,false);
+    schassis.setPose(xSign*xReading,schassis.getPose().y,schassis.getPose().theta,false);
+    schassis.setPose(schassis.getPose().x,ySign*yReading,schassis.getPose().theta,false);
     
 
 	

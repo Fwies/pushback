@@ -152,13 +152,19 @@ void autoRightMiddle(){
 }
 void autoSkills(){
     
-    chassis.setPose(-3,0,270,false);//made park cosnisntent
+
+    chassis.setPose(0,0,270,false);
     wing.extend();
     intakeIn();
-    chassis.moveToPoint(-50,0,4000,{.maxSpeed=65,.minSpeed=65},false);
+     //master.set_text(0, 0, std::to_string(chassis.getPose().theta));
+    chassis.moveToPoint(-53,0,4000,{.maxSpeed=65,.minSpeed=65},false);
+    master.set_text(0, 0, std::to_string(chassis.getPose().theta));
+    
     chassis.turnToHeading(270,1000,{},false);
     chassis.waitUntilDone();
+    
     distanceSensorReset(DS::FRONT,DS::LEFT, 270, 1, 1);
+    
 
     
 
@@ -172,12 +178,12 @@ void autoSkills(){
     chassis.turnToPoint(61,61,2000,{.forwards=false},false);
     chassis.waitUntilDone();
     chassis.moveToPoint(61,61,500,{.forwards=false},false);
-    chassis.moveToPoint(63,63,500,{.forwards=false,.maxSpeed=50},false);
-    leftDrive.move_voltage(-1500);
-    rightDrive.move_voltage(-1500);
+    chassis.moveToPoint(61,61,500,{.forwards=false,.maxSpeed=40},false);
+    leftDrive.move_voltage(-1000);
+    rightDrive.move_voltage(-1000);
     intakeOutMid(true);
      int x = 0;
-    while(x<10){
+    while(x<8){
        
             I1.move_velocity(600);
             I2.move_velocity(100);
@@ -190,7 +196,7 @@ void autoSkills(){
            
     }
     
-    //pros::delay(4000);
+    //pros::delay(3300);
     tongue.extend();
     chassis.moveToPoint(22,32,2000,{},false);
     intakeIn();
@@ -200,22 +206,28 @@ void autoSkills(){
     chassis.moveToPoint(11,46,1500,{.forwards=false,.minSpeed=20,.earlyExitRange=6},false);
     
     tongue.retract();
-    chassis.turnToPoint(12,115,200,{.forwards=false},false);
-    chassis.moveToPoint(13,115,3000,{.forwards=false},false);
-    chassis.turnToPoint(24,115,1000,{.forwards=false},false);
-    chassis.moveToPoint(24,115,1000,{.forwards=false},false);
-    //chassis.turnToHeading(180,300,{},false);
-    //chassis.swingToHeading(0,DriveSide::LEFT,2000,{.direction = AngularDirection::CW_CLOCKWISE , .maxSpeed=60},false);
+    chassis.turnToPoint(11,112,200,{.forwards=false},false);//115
+    chassis.moveToPoint(11,112,3000,{.forwards=false},false);
+    chassis.turnToHeading(270,1000,{},false);
+    double saveY = chassis.getPose().y;
+    distanceSensorReset(DS::FRONT, DS::LEFT, 270, 1, 1);
+    chassis.setPose(chassis.getPose().x, saveY, chassis.getPose().theta,false);
+    
+    chassis.moveToPoint(23,saveY,1000,{.forwards=false},false);
+    
     chassis.turnToPoint(23,96,1000,{.forwards=false},false);
+
+    
     chassis.moveToPoint(23,96,1500,{.forwards=false},true);
+    //chassis.moveToPose(23,96,0,1500,{.forwards=false,.horizontalDrift=5},true);
     
     pros::delay(500);
     intakeOutHigh(1500);
     chassis.setPose(23,chassis.getPose().y,chassis.getPose().theta,false);
     intakeIn();
     tongue.extend();
-    chassis.moveToPoint(23,137,500,{},false);
-    chassis.moveToPoint(23,137,2000,{.maxSpeed=50},false);
+    chassis.moveToPoint(23,140,500,{},false);
+    chassis.moveToPoint(23,140,2000,{.maxSpeed=50},false);
    
     chassis.moveToPoint(23,96,500,{.forwards=false},false);
 
@@ -225,7 +237,7 @@ void autoSkills(){
     intakeStop();
     tongue.retract();
     //chassis.moveToPoint(24,115,3000,{.minSpeed=30,.earlyExitRange=4},false);
-    chassis.moveToPoint(48,135,3000,{},false);
+    chassis.moveToPoint(46,134,3000,{},false);
     chassis.swingToHeading(90,DriveSide::RIGHT,1000,{},false);
     intakeIn();
     chassis.moveToPoint(103,138,5000,{.maxSpeed=65,.minSpeed=65},false);
@@ -233,16 +245,19 @@ void autoSkills(){
     chassis.waitUntilDone();
     distanceSensorReset(DS::FRONT, DS::LEFT, 90, -1, -1);
     chassis.turnToPoint(-66,-30,1000,{.forwards=false},false);
-    chassis.moveToPoint(-66,-30,2000,{.forwards=false},false);
+    chassis.moveToPoint(-66,-30,2000,{.forwards=false,.minSpeed=20,.earlyExitRange=4},false);
 
-    chassis.turnToPoint(-108,-36,500,{.forwards=false},false);
+    chassis.turnToPoint(-108,-36,250,{.forwards=false},false);
     chassis.moveToPoint(-108,-36,3000,{.forwards=false},false);
-    chassis.turnToPoint(-100.5,-42.5,1000,{},false);
-    chassis.moveToPoint(-100.5,-42.5,1000,{},false);
+    chassis.turnToPoint(-101,-44,1000,{},false);
+    chassis.moveToPoint(-101,-44,1000,{},false);
     intakeStop();
-    chassis.turnToHeading(215,1000,{},false);
-    chassis.turnToPoint(-90,-54,1000,{},false);
-    chassis.moveToPoint(-82,-62,1500,{},false);
+    chassis.turnToHeading(230,1000,{.minSpeed=20,.earlyExitRange=5},false);
+    chassis.turnToPoint(-82,-64,1000,{},false);
+    tongue.extend();
+    chassis.moveToPoint(-82,-64,400,{},false);
+    tongue.retract();
+    chassis.moveToPoint(-82,-64,800,{.maxSpeed=50},false);
     x=0;
     while(x<400){
         
@@ -250,12 +265,52 @@ void autoSkills(){
         x++;
         pros::delay(10);
     }
-    chassis.swingToPoint(-24,-30,DriveSide::LEFT,1000,{.forwards=false, .direction = AngularDirection::CW_CLOCKWISE},false);
+    chassis.swingToPoint(-24,-27,DriveSide::LEFT,1000,{.forwards=false, .direction = AngularDirection::CW_CLOCKWISE,.minSpeed=20,.earlyExitRange=10},false);
     intakeStop();
-    chassis.moveToPoint(-24,-30,3000,{.forwards=false},false);
+    chassis.moveToPoint(-24,-27,3000,{.forwards=false},false);
     chassis.turnToHeading(315,1000,{.minSpeed=30,.earlyExitRange=10},false);
     tongue.extend();
     chassis.turnToPoint(-24,0,1000,{},false);
+    chassis.moveToPoint(-24,0,300,{},false);
+    intakeIn();
+    chassis.moveToPoint(-24,0,2000,{.maxSpeed=50},false);
+   
+     chassis.moveToPoint(-9,-46,1500,{.forwards=false,.minSpeed=20,.earlyExitRange=6},false);
+    
+    tongue.retract();
+    chassis.turnToPoint(-9,-109,200,{.forwards=false},false);
+    chassis.moveToPoint(-9,-109,3000,{.forwards=false},false);
+    chassis.turnToHeading(90,1000,{},false);
+    saveY = chassis.getPose().y;
+    distanceSensorReset(DS::FRONT, DS::LEFT, 90, -1, 1);
+    chassis.setPose(chassis.getPose().x, saveY, chassis.getPose().theta,false);
+    
+    chassis.moveToPoint(-25,saveY,1000,{.forwards=false},false);
+    //chassis.moveToPoint(-25,-112,1000,{.forwards=false},false);
+    //chassis.turnToHeading(180,300,{},false);
+    //chassis.swingToHeading(0,DriveSide::LEFT,2000,{.direction = AngularDirection::CW_CLOCKWISE , .maxSpeed=60},false);
+    chassis.turnToPoint(-25,-96,1000,{.forwards=false},false);
+    chassis.moveToPoint(-25,-96,1500,{.forwards=false},true);
+    
+    pros::delay(500);
+    intakeOutHigh(1500);
+    chassis.setPose(-25,chassis.getPose().y,chassis.getPose().theta,false);
+    intakeIn();
+    tongue.extend();
+    chassis.moveToPoint(-25,-137,500,{},false);
+    chassis.moveToPoint(-25,-137,2000,{.maxSpeed=50},false);
+   
+    chassis.moveToPoint(-25,-96,500,{.forwards=false},false);
+
+    chassis.moveToPoint(-25,-96,1000,{.forwards=false,.maxSpeed=60},true);
+    pros::delay(300);
+    intakeOutHigh(1500);
+    intakeStop();
+    tongue.retract();
+    chassis.swingToPoint(-72,-115, DriveSide::RIGHT,2500,{.minSpeed=20,.earlyExitRange=5},false);
+    chassis.moveToPoint(-72,-115,2500,{},false);
+    chassis.turnToPoint(-72,-145,1000,{},false);
+    chassis.moveToPoint(-72,-145,4000,{.minSpeed=127},false);
 
     
     

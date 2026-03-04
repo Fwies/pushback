@@ -40,6 +40,7 @@ void competition_initialize() {
 	autoPrint();
 	if(auton == 3){
 		chassis.calibrate(true);
+		
 	}
 	else{
 		chassis.calibrate(true);
@@ -77,7 +78,7 @@ void autonomous() {
 	
 	//chassis.moveToPose(20,35,90,2000,{.horizontalDrift = 15, .lead = 0.25},false);
 	
-	autoSet(-1);
+	autoSet(3);
 	autoPrint();
 	autoRun();
 }

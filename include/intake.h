@@ -19,5 +19,6 @@ extern pros::adi::Pneumatics wing;
 extern pros::Motor I3;
 extern pros::Motor I2;
 extern pros::Motor I1;
+void intakeInThread(void* param);
 void setHood(bool in);
 void setTrapDoor(bool in);

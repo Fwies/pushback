@@ -4,9 +4,9 @@ pros::Controller master(pros::E_CONTROLLER_MASTER);
 pros::Controller partner(pros::E_CONTROLLER_PARTNER);
 
 void initialize() {
-	optical.set_integration_time(3);
-	I3.set_brake_mode(MOTOR_BRAKE_HOLD);
+
 	pros::lcd::initialize();
+	pros::Task intakeThread = pros::Task(intakeInThread);
 	//schassis.calibrate();
 	//imu.reset();
 }
@@ -77,13 +77,18 @@ void autonomous() {
 	chassis.turnToHeading(0,1500,{},false);*/
 	
 	//chassis.moveToPose(20,35,90,2000,{.horizontalDrift = 15, .lead = 0.25},false);
-	
-	autoSet(3);
+	/*I1.move_velocity(225);
+            I2.move_velocity(225);
+			pros::delay(3000);
+			I1.move_velocity(250);
+            I2.move_velocity(250);
+			pros::delay(99999);*/
+	autoSet(-1);
 	autoPrint();
 	autoRun();
 }
 
-/**
+/*7
  * Runs the operator control code. This function will be started in its own task
  * with the default priority and stack size whenever the robot is enabled via
  * the Field Management System or the VEX Competition Switch in the operator

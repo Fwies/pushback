@@ -19,7 +19,31 @@ pros::Motor I3 ((int)-3, pros::v5::MotorGears::blue, pros::MotorUnits::rotations
 int colorSortCountdown = 0;
 int intakeRev = 0;
 int topBallBuffer = 70;
+double intaking = false;
+void intakeInThread(void* param){
+    int z= 0;
+    while(true){
+        if(intaking){
+            if(z<50){
+            I2.move_velocity(600);
+            }
+            else if (z<55){
+                I2.move_velocity(-200);
+            }
+            else{
+                z=0;
+            }
+            z++;
+        }
+        else{
+            z=0;
+        }
+        pros::delay(10);
+    }
+}
 void intakeIn(){
+    leftDrive.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+    rightDrive.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
     middleGoal.extend();
     wing.extend();
     lift.retract();
@@ -29,12 +53,13 @@ void intakeIn(){
     I1.move_velocity(600);
     I2.move_velocity(600);
     
-    
+    intaking = true;
     intakeRev = 0;
 }
 
 void intakeOutLow(bool slowin){
-    lift.extend();
+    intaking = false;
+    
     if(!slowin){
         I1.move_velocity(-600);
         I2.move_velocity(-600);
@@ -48,13 +73,13 @@ void intakeOutLow(bool slowin){
 
     }
     else{
-        
-        I1.move_velocity(-100);
+        lift.extend();
+        I1.move_velocity(-150);
         if(intakeRev<20){
             
             I2.move_velocity(-600);
         }
-        else if(intakeRev<40){
+        else if(intakeRev<30){
             
             I2.move_velocity(100);
         }
@@ -72,6 +97,7 @@ void intakeOutLow(bool slowin){
 
 
 void intakeOutMid(bool slowin, int ms){
+    intaking = false;
     lift.retract();
     middleGoal.retract();
     
@@ -85,8 +111,8 @@ void intakeOutMid(bool slowin, int ms){
             
         }
         else{
-            I1.move_velocity(200);
-            I2.move_velocity(200);
+            I1.move_velocity(225);
+            I2.move_velocity(225);
 
             
         }
@@ -101,8 +127,11 @@ void intakeOutMid(bool slowin, int ms){
     
 }
 void intakeOutHigh(int ms){
+    intaking = false;
     lift.retract();
     middleGoal.extend();
+    leftDrive.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    rightDrive.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     if(ms<0){ // check that this is a iteration call and not to start a timed loop
         wing.retract();// open the hood
         if (intakeRev<10){
@@ -144,6 +173,9 @@ void intakeOutHigh(int ms){
     }
 }
 void intakeStop(){
+    intaking = false;
+    leftDrive.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+    rightDrive.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
     lift.retract();
         I1.move_velocity(0);
         I2.move_velocity(0);

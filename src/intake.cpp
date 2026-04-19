@@ -3,19 +3,21 @@ bool hoodState =false;
 bool trapDoorState = false;
 bool slow = false;
 
-pros::Distance topBall(6);
+//pros::Distance topBall(6);
 COLORVALUE OppUpper = COLORVALUE::BLUEUPPER;
 COLORVALUE OppLower = COLORVALUE::BLUELOWER;
 pros::adi::Pneumatics hood('z', false);
-pros::adi::Pneumatics tongue('b', false);
-pros::adi::Pneumatics lift('h', false);
-pros::adi::Pneumatics wing('g', false);
-pros::adi::Pneumatics middleGoal('f', false);
+pros::adi::Pneumatics tongue('g', false);
+pros::adi::Pneumatics lift('e', false);
+pros::adi::Pneumatics wing('f', false);
+pros::adi::Pneumatics middleGoal('c', false);
+pros::adi::Pneumatics descore('b', false);
+
 
 pros::Optical optical(7);
 pros::Motor I1 ((int)9, pros::v5::MotorGears::blue, pros::MotorUnits::rotations);
 pros::Motor I2 ((int)-8, pros::v5::MotorGears::blue, pros::MotorUnits::rotations);
-pros::Motor I3 ((int)-3, pros::v5::MotorGears::blue, pros::MotorUnits::rotations);
+pros::Motor I3 ((int)-22, pros::v5::MotorGears::blue, pros::MotorUnits::rotations);
 int colorSortCountdown = 0;
 int intakeRev = 0;
 int topBallBuffer = 70;
@@ -74,14 +76,14 @@ void intakeOutLow(bool slowin){
     }
     else{
         lift.extend();
-        I1.move_velocity(-150);
+        I1.move_velocity(-120);
         if(intakeRev<20){
             
-            I2.move_velocity(-600);
+            I2.move_velocity(-300);
         }
         else if(intakeRev<30){
             
-            I2.move_velocity(100);
+            I2.move_velocity(50);
         }
         else{
             intakeRev=0;
@@ -112,7 +114,7 @@ void intakeOutMid(bool slowin, int ms){
         }
         else{
             I1.move_velocity(225);
-            I2.move_velocity(225);
+            I2.move_velocity(200);
 
             
         }
@@ -179,7 +181,7 @@ void intakeStop(){
     lift.retract();
         I1.move_velocity(0);
         I2.move_velocity(0);
-        I3.move_velocity(0);
+        //I3.move_velocity(0);
         colorSortCountdown = 0;
         intakeRev = 0;
 }
@@ -192,6 +194,9 @@ void intakeLoop(){
     }
     if(master.get_digital_new_press(DIGITAL_Y)){
         tongue.toggle();
+    }
+    if(master.get_digital_new_press(DIGITAL_RIGHT)){
+        descore.toggle();
     }
    
     

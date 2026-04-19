@@ -7,7 +7,7 @@ void initialize() {
 
 	pros::lcd::initialize();
 	pros::Task intakeThread = pros::Task(intakeInThread);
-	//schassis.calibrate();
+	//chassis.calibrate();
 	//imu.reset();
 }
 
@@ -65,11 +65,11 @@ void competition_initialize() {
  * from where it left off.
  */
 void autonomous() {
-	/*chassis.moveToPoint(0,24,2000,{},false);
+	/*chassis.moveToPoint(0,48,3000,{},false);
 	pros::lcd::set_text(0, "y: " + std::to_string(schassis.getPose().y));
 	master.set_text(0, 0, std::to_string(schassis.getPose().y));
 	pros::lcd::set_text(1, "x: " + std::to_string(schassis.getPose().x));
-	chassis.moveToPoint(0,0,2000,{.forwards=false},false);*/
+	chassis.moveToPoint(0,0,3000,{.forwards=false},false);*/
 	/*chassis.turnToHeading(90,1000,{},false);
 	
 	master.set_text(0, 0, std::to_string(schassis.getPose().theta));
@@ -83,6 +83,14 @@ void autonomous() {
 			I1.move_velocity(250);
             I2.move_velocity(250);
 			pros::delay(99999);*/
+
+
+
+
+
+
+
+
 	autoSet(-1);
 	autoPrint();
 	autoRun();
@@ -104,7 +112,7 @@ void autonomous() {
 
 
 void opcontrol() {
-
+chassis.calibrate();
 	
 	
 	

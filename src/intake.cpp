@@ -194,9 +194,11 @@ void intakeLoop(){
     }
     if(master.get_digital_new_press(DIGITAL_Y)){
         tongue.toggle();
+        descore.retract();
     }
     if(master.get_digital_new_press(DIGITAL_RIGHT)){
         descore.toggle();
+        tongue.retract();
     }
    
     

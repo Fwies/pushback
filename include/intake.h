@@ -14,6 +14,7 @@ enum COLORVALUE{
 extern pros::Optical optical;
 void intakeStop();
 extern pros::adi::Pneumatics tongue;
+extern pros::adi::Pneumatics descore;
 extern pros::adi::Pneumatics lift;
 extern pros::adi::Pneumatics wing;
 extern pros::Motor I3;

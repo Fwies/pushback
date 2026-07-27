@@ -76,7 +76,7 @@ void driveLoop(){
         if(master.get_analog(ANALOG_LEFT_X)<-110){
             chassis.setPose(0,0,0,false);
             chassis.moveToPoint(10,1,600,{.minSpeed=60,.earlyExitRange=3},false);
-            chassis.turnToHeading(10,500,{.minSpeed=10,.earlyExitRange=1},false);
+            chassis.turnToHeading(5,500,{.minSpeed=10,.earlyExitRange=1},false);
 // chassis.turnToHeading(-90,800,{},false);
 //chassis.moveToPoint(-10,-6,600,{.minSpeed=60,.earlyExitRange=3},false);
 
